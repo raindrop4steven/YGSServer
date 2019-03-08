@@ -11,10 +11,7 @@ namespace YGSServer.Controllers
 {
     public class CommonController : Controller
     {
-        /// <summary>
-        /// 上传图片
-        /// </summary>
-        /// <returns></returns>
+        #region 上传文件
         [HttpPost]
         public ActionResult Upload()
         {
@@ -68,12 +65,9 @@ namespace YGSServer.Controllers
                 return ResponseUtil.Error(400, "上传出错");
             }
         }
+        #endregion
 
-        /// <summary>
-        /// 查看图片
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        #region 下载文件
         public ActionResult Download(int id)
         {
             using(var db = new YGSDbContext())
@@ -103,5 +97,47 @@ namespace YGSServer.Controllers
                 }
             }
         }
+        #endregion
+
+        #region 部门用户信息补全
+        [HttpPost]
+        public ActionResult CompleteUser(FormCollection collection)
+        {
+            /*
+             * 参数获取
+             */
+            // 姓名
+            var Name = collection["name"];
+
+            /*
+             * 参数校验
+             */
+            // 姓名
+            if (string.IsNullOrEmpty(Name))
+            {
+                return ResponseUtil.Error(400, "姓名不能为空");
+            }
+
+            /*
+             * 查询符合条件的用户
+             */
+            using (var db = new YGSDbContext())
+            {
+                var users = db.User.Where(n => n.Name.Contains(Name)).Select(n => new {
+                    id = n.ID,
+                    name = n.Name,
+                    cred_no= n.CredNo
+                }).ToList();
+                return new JsonNetResult(new
+                {
+                    code = 200,
+                    data = new
+                    {
+                        users = users
+                    }
+                });
+            }
+        }
+        #endregion
     }
 }
