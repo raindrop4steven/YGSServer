@@ -48,6 +48,8 @@ namespace YGSServer.Models
         public int UserID { get; set; }
         // 证件编号
         public string TradeCode { get; set; }
+        // 证件类型
+        public string CredType { get; set; }
         // 姓名
         public string Name { get; set; }
         // 性别
@@ -73,6 +75,8 @@ namespace YGSServer.Models
         // ID
         [Key]
         public int ID { get; set; }
+        // 申请人
+        public int UserId { get; set; }
         // 组团名
         public string OutName { get; set; }
         // 出访任务
@@ -91,6 +95,8 @@ namespace YGSServer.Models
         public string SignStatus { get; set; }
         // 资料回传附件
         public string AfterAtt { get; set; }
+        // 申请状态
+        public string ApplyStatus { get; set; }
         // 添加日期
         public DateTime? CreateTime { get; set; }
         // 更新日期
