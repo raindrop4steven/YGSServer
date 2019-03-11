@@ -97,6 +97,10 @@ namespace YGSServer.Models
         public string AfterAtt { get; set; }
         // 申请状态
         public string ApplyStatus { get; set; }
+        // 签批意见
+        public string CheckOpinion { get; set; }
+        // 下一步
+        public string NextStep { get; set; }
         // 添加日期
         public DateTime? CreateTime { get; set; }
         // 更新日期

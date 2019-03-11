@@ -161,6 +161,7 @@
     <Compile Include="Common\JsonNetResult.cs" />
     <Compile Include="Common\ResponseUtil.cs" />
     <Compile Include="Common\WHConstants.cs" />
+    <Compile Include="Controllers\ApplyController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\CredController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -226,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Apply\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Cred\" />
     <Folder Include="Views\User\" />
