@@ -143,27 +143,369 @@ namespace YGSServer.Controllers
         #endregion
 
         #region 部门查看申请详情
-        
+        public ActionResult Detail(int id)
+        {
+            /*
+             * 查询申请
+             */
+            using (var db = new YGSDbContext())
+            {
+                var apply = db.Apply.Where(n => n.ID == id).FirstOrDefault();
+                if (apply == null)
+                {
+                    return ResponseUtil.Error(400, "申请不存在");
+                }
+                else
+                {
+                    return new JsonNetResult(new
+                    {
+                        code = 200,
+                        data = new
+                        {
+                            record = new
+                            {
+                                id = apply.ID,
+                                outName = apply.OutName,
+                                desc = apply.Desc,
+                                credType = apply.CredType,
+                                applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
+                                outUsers = db.User.Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
+                                    id = m.ID,
+                                    name = m.Name
+                                }).ToList(),
+                                applyAtt = db.Attachment.Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                {
+                                    id = m.ID,
+                                    name = m.Name,
+                                    url = m.Path
+                                }).ToList(),
+                                outDate = new
+                                {
+                                    show = apply.OutDate != null,
+                                    data = apply.OutDate == null ? "" : apply.OutDate.Value.ToString("yyyy/MM/dd")
+                                },
+                                afterAtt = new
+                                {
+                                    show = apply.AfterAtt != null,
+                                    data = db.Attachment.Where(m => apply.AfterAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                    {
+                                        id = m.ID,
+                                        name = m.Name,
+                                        url = m.Path
+                                    }).ToList()
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
         #endregion
 
         #region 部门获取编辑申请详情
-
+        public ActionResult Update(int id)
+        {
+            /*
+             * 查询申请
+             */
+            using (var db = new YGSDbContext())
+            {
+                var apply = db.Apply.Where(n => n.ID == id).FirstOrDefault();
+                if (apply == null)
+                {
+                    return ResponseUtil.Error(400, "申请不存在");
+                }
+                else
+                {
+                    return new JsonNetResult(new
+                    {
+                        code = 200,
+                        data = new
+                        {
+                            credTypes = new object[]
+                                {
+                                    new {
+                                        id = 1,
+                                        type = WHConstants.Cred_Type_Passport,
+                                        name = "护照"
+                                    },
+                                    new
+                                    {
+                                        id = 2,
+                                        type = WHConstants.Cred_Type_Permit,
+                                        name = "通行证"
+                                    }
+                                },
+                            record = new
+                            {
+                                id = apply.ID,
+                                outName = apply.OutName,
+                                desc = apply.Desc,
+                                credType = apply.CredType,
+                                applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
+                                outUsers = db.User.Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
+                                    id = m.ID,
+                                    name = m.Name
+                                }).ToList(),
+                                applyAtt = db.Attachment.Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                {
+                                    id = m.ID,
+                                    name = m.Name,
+                                    url = m.Path
+                                }).ToList(),
+                                outDate = new
+                                {
+                                    show = apply.OutDate != null,
+                                    data = apply.OutDate == null ? "" : apply.OutDate.Value.ToString("yyyy/MM/dd")
+                                },
+                                afterAtt = new
+                                {
+                                    show = apply.AfterAtt != null,
+                                    data = db.Attachment.Where(m => apply.AfterAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                    {
+                                        id = m.ID,
+                                        name = m.Name,
+                                        url = m.Path
+                                    }).ToList()
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
         #endregion
 
         #region 部门更新申请
+        [HttpPost]
+        public ActionResult DoUpdate(FormCollection collection)
+        {
+            /*
+             * 变量定义
+             */
+            // 申请ID
+            int aid = 0;
 
+            /*
+             * 参数获取
+             */
+            // 申请ID
+            var id = collection["id"];
+            // 团组名
+            var outName = collection["outName"];
+            // 出访任务
+            var descn = collection["descn"];
+            // 出访类型
+            var credType = collection["credType"];
+            // 人员ID列表
+            var outUsers = collection["outUsers"];
+            // 申请附件ID列表
+            var applyAtt = collection["applyAtt"];
+            // 资料回传附件ID列表
+            var afterAtt = collection["afterAtt"];
+
+            /*
+             * 参数校验
+             */
+            // 申请ID
+            if (string.IsNullOrEmpty(id))
+            {
+                return ResponseUtil.Error(400, "申请ID不能为空");
+            }
+            else
+            {
+                if(!int.TryParse(id, out aid))
+                {
+                    return ResponseUtil.Error(400, "申请ID不正确");
+                }
+            }
+            // 团组名
+            if(string.IsNullOrEmpty(outName))
+            {
+                return ResponseUtil.Error(400, "团组名不能为空");
+            }
+            // 出访任务
+            if(string.IsNullOrEmpty(descn))
+            {
+                return ResponseUtil.Error(400, "出访类型不能为空");
+            }
+            // 人员ID列表
+            if(string.IsNullOrEmpty(outUsers))
+            {
+                return ResponseUtil.Error(400, "出访人员不能为空");
+            }
+            // 申请附件ID不能为空
+            if(string.IsNullOrEmpty(applyAtt))
+            {
+                return ResponseUtil.Error(400, "申请附件不能为空");
+            }
+
+            /*
+             * 查询申请
+             */
+            using (var db = new YGSDbContext())
+            {
+                var apply = db.Apply.Where(n => n.ID == aid).FirstOrDefault();
+                if (apply == null)
+                {
+                    return ResponseUtil.Error(400, "申请不存在");
+                }
+                else
+                {
+                    apply.OutName = outName;
+                    apply.Desc = descn;
+                    apply.CredType = credType;
+                    apply.OutUsers = outUsers;
+                    apply.ApplyAtt = applyAtt;
+                    if(!string.IsNullOrEmpty(afterAtt))
+                    {
+                        apply.AfterAtt = afterAtt;
+                    }
+                    db.SaveChanges();
+
+                    return ResponseUtil.OK(200, "申请更新成功");
+                }
+            }
+        }
         #endregion
 
         #region 部门删除申请
+        [HttpPost]
+        public ActionResult Delete(FormCollection collection)
+        {
+            /*
+             * 变量定义
+             */
+            // 申请ID
+            int aid = 0;
 
+            /*
+             * 参数获取
+             */
+            // 申请id
+            var id = collection["id"];
+
+            /*
+             * 参数校验
+             */
+            // 申请ID
+            if (string.IsNullOrEmpty(id))
+            {
+                return ResponseUtil.Error(400, "申请ID不能为空");
+            }
+            else
+            {
+                if (!int.TryParse(id, out aid))
+                {
+                    return ResponseUtil.Error(400, "申请ID不正确");
+                }
+            }
+
+            /*
+             * 删除申请
+             */
+            using (var db = new YGSDbContext())
+            {
+                var apply = db.Apply.Where(n => n.ID == aid).FirstOrDefault();
+                if (apply == null)
+                {
+                    return ResponseUtil.Error(400, "申请不存在");
+                }
+                else
+                {
+                    db.Apply.Remove(apply);
+                    db.SaveChanges();
+                    return ResponseUtil.OK(200, "删除成功");
+                }
+            }
+        }
         #endregion
 
         #region 部门新增申请
-
+        public ActionResult Add()
+        {
+            return new JsonNetResult(new
+            {
+                code = 200,
+                data = new
+                {
+                    credTypes = new object[]
+                                {
+                                    new {
+                                        id = 1,
+                                        type = WHConstants.Cred_Type_Passport,
+                                        name = "护照"
+                                    },
+                                    new
+                                    {
+                                        id = 2,
+                                        type = WHConstants.Cred_Type_Permit,
+                                        name = "通行证"
+                                    }
+                                },
+                }
+            });
+        }
         #endregion
 
         #region 部门提交申请
+        [HttpPost]
+        public ActionResult DoAdd(FormCollection collection)
+        {
+            /*
+             * 参数获取
+             */
+            // 组团名
+            var outName = collection["outName"];
+            // 任务描述
+            var descn = collection["descn"];
+            // 出访类型
+            var credType = collection["credType"];
+            // 出访人员
+            var outUsers = collection["outUsers"];
+            // 申请附件
+            var applyAtt = collection["applyAtt"];
 
+            /*
+             * 参数校验
+             */
+            // 团组名
+            if (string.IsNullOrEmpty(outName))
+            {
+                return ResponseUtil.Error(400, "团组名不能为空");
+            }
+            // 出访任务
+            if (string.IsNullOrEmpty(descn))
+            {
+                return ResponseUtil.Error(400, "出访类型不能为空");
+            }
+            // 人员ID列表
+            if (string.IsNullOrEmpty(outUsers))
+            {
+                return ResponseUtil.Error(400, "出访人员不能为空");
+            }
+            // 申请附件ID不能为空
+            if (string.IsNullOrEmpty(applyAtt))
+            {
+                return ResponseUtil.Error(400, "申请附件不能为空");
+            }
+
+            /*
+             * 存储申请
+             */
+            using (var db = new YGSDbContext())
+            {
+                var apply = new YGS_Apply();
+                apply.OutName = outName;
+                apply.Desc = descn;
+                apply.OutUsers = outUsers;
+                apply.ApplyAtt = applyAtt;
+                db.Apply.Add(apply);
+                db.SaveChanges();
+
+                return ResponseUtil.OK(200, "创建成功");
+            }
+        }
         #endregion
     }
 }
