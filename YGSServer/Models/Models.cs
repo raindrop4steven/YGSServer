@@ -102,9 +102,9 @@ namespace YGSServer.Models
         // 下一步
         public string NextStep { get; set; }
         // 添加日期
-        public DateTime? CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
         // 更新日期
-        public DateTime? UpdateTime { get; set; }
+        public DateTime UpdateTime { get; set; }
     }
     #endregion
 

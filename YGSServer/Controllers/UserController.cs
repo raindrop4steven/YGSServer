@@ -257,24 +257,88 @@ namespace YGSServer.Controllers
             /*
              * 添加用户
              */
-            var user = new YGS_User();
-            user.Name = name;
-            user.Sex = sex;
-            user.Location = location;
-            user.BirthDay = birthday;
-            user.CredNo = credNo;
-            user.Unit = unit;
-            user.Depart = depart;
-            user.Level = level;
-            user.Duty = duty;
-
             using (var db = new YGSDbContext())
             {
-                db.User.Add(user);
-                db.SaveChanges();
+                var user = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
+                if(user == null)
+                {
+                    user = new YGS_User();
+                    user.Name = name;
+                    user.Sex = sex;
+                    user.Location = location;
+                    user.BirthDay = birthday;
+                    user.CredNo = credNo;
+                    user.Unit = unit;
+                    user.Depart = depart;
+                    user.Level = level;
+                    user.Duty = duty;
+                    db.User.Add(user);
+                    db.SaveChanges();
+
+                    return ResponseUtil.OK(200, "创建成功！");
+                }
+                else
+                {
+                    return ResponseUtil.Error(400, "用户已存在");
+                }
             }
 
-            return ResponseUtil.OK(200, "创建成功！");
+        }
+        #endregion
+
+
+        #region 添加临时用户
+        [HttpPost]
+        public ActionResult DoAddTempUser(FormCollection collection)
+        {
+            /*
+             * 参数获取
+             */
+            // 姓名
+            var name = collection["name"];
+            // 身份证号
+            var credNo = collection["credNo"];
+
+            /*
+             * 参数校验
+             */
+            // 姓名
+            if (string.IsNullOrEmpty(name))
+            {
+                return ResponseUtil.Error(400, "姓名不能为空");
+            }
+            // 身份证号
+            if(string.IsNullOrEmpty(credNo))
+            {
+                return ResponseUtil.Error(400, "身份证号不能为空");
+            }
+
+            /*
+             * 查询重复
+             */
+            using (var db = new YGSDbContext())
+            {
+                var user = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
+                if (user == null)
+                {
+                    user = new YGS_User();
+                    user.Name = name;
+                    user.CredNo = credNo;
+                    user.CreateTime = DateTime.Now;
+
+                    db.User.Add(user);
+                    db.SaveChanges();
+
+                    return new JsonNetResult(new
+                    {
+                        code = 200,
+                        data = new
+                        {
+                            id = user.ID
+                        }
+                    });
+                }
+            }
         }
         #endregion
 

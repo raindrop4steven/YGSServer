@@ -164,6 +164,7 @@
     <Compile Include="Controllers\ApplyController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\CredController.cs" />
+    <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -230,6 +231,7 @@
     <Folder Include="Views\Apply\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Cred\" />
+    <Folder Include="Views\Exam\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
