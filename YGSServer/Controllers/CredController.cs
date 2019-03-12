@@ -52,7 +52,7 @@ namespace YGSServer.Controllers
                 else
                 {
                     // 证件列表
-                    var credList = db.Cred.Where(n => n.UserID == id).Select(n => new
+                    var credList = db.Cred.Where(n => n.UserID == id).ToList().Select(n => new
                     {
                         id = n.ID,
                         tradeCode = n.TradeCode,
@@ -62,9 +62,9 @@ namespace YGSServer.Controllers
                         credDate = n.CredDate.Value.ToString("yyyy/MM/dd"),
                         validDate = n.ValidDate.Value.ToString("yyyy/MM/dd"),
                         validStatus = n.ValidStatus
-                    }).ToList();
+                    });
                     // 出国记录
-                    var outRecords = db.Apply.Where(n => n.UserId == id && n.ApplyStatus == WHConstants.Apply_Status_Passed).Select(n => new
+                    var outRecords = db.Apply.Where(n => n.UserId == id && n.ApplyStatus == WHConstants.Apply_Status_Passed).ToList().Select(n => new
                     {
                         id = n.ID,
                         outName = n.OutName,
@@ -76,7 +76,7 @@ namespace YGSServer.Controllers
                             name = m.Name
                         }).ToList(),
                         desc = n.Desc
-                    }).ToList();
+                    });
 
                     return new JsonNetResult(new
                     {
@@ -279,12 +279,15 @@ namespace YGSServer.Controllers
                 {
                     var cred = new YGS_Cred();
                     cred.UserID = uid;
+                    cred.Name = user.Name;
                     cred.TradeCode = tradeCode;
                     cred.CredType = credType;
                     cred.CredUnit = credUnit;
                     cred.CredDate = credDate;
                     cred.ValidDate = validDate;
                     cred.ValidStatus = validStatus;
+                    cred.CreateTime = DateTime.Now;
+                    cred.UpdateTime = DateTime.Now;
 
                     db.Cred.Add(cred);
                     db.SaveChanges();
@@ -357,7 +360,7 @@ namespace YGSServer.Controllers
                                     tradeCode = cred.TradeCode,
                                     credType = cred.CredType,
                                     credUnit = cred.CredUnit,
-                                    credDate = cred.CredDate,
+                                    credDate = cred.CredDate.Value.ToString("yyyy/MM/dd"),
                                     validDate = cred.ValidDate.Value.ToString("yyyy/MM/dd"),
                                     validStatus = cred.ValidStatus
                                 }
