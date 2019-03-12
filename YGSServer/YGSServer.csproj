@@ -170,21 +170,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903080335010_create models.cs" />
-    <Compile Include="Migrations\201903080335010_create models.Designer.cs">
-      <DependentUpon>201903080335010_create models.cs</DependentUpon>
+    <Compile Include="Migrations\201903120212362_update models.cs" />
+    <Compile Include="Migrations\201903120212362_update models.Designer.cs">
+      <DependentUpon>201903120212362_update models.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903081318076_update model.cs" />
-    <Compile Include="Migrations\201903081318076_update model.Designer.cs">
-      <DependentUpon>201903081318076_update model.cs</DependentUpon>
+    <Compile Include="Migrations\201903120216333_update models2.cs" />
+    <Compile Include="Migrations\201903120216333_update models2.Designer.cs">
+      <DependentUpon>201903120216333_update models2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903110454320_update models.cs" />
-    <Compile Include="Migrations\201903110454320_update models.Designer.cs">
-      <DependentUpon>201903110454320_update models.cs</DependentUpon>
+    <Compile Include="Migrations\201903120217498_update models3.cs" />
+    <Compile Include="Migrations\201903120217498_update models3.Designer.cs">
+      <DependentUpon>201903120217498_update models3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903120122113_update models2.cs" />
-    <Compile Include="Migrations\201903120122113_update models2.Designer.cs">
-      <DependentUpon>201903120122113_update models2.cs</DependentUpon>
+    <Compile Include="Migrations\201903120257317_update models4.cs" />
+    <Compile Include="Migrations\201903120257317_update models4.Designer.cs">
+      <DependentUpon>201903120257317_update models4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Models.cs" />
@@ -252,17 +252,17 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903080335010_create models.resx">
-      <DependentUpon>201903080335010_create models.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903120212362_update models.resx">
+      <DependentUpon>201903120212362_update models.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903081318076_update model.resx">
-      <DependentUpon>201903081318076_update model.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903120216333_update models2.resx">
+      <DependentUpon>201903120216333_update models2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903110454320_update models.resx">
-      <DependentUpon>201903110454320_update models.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903120217498_update models3.resx">
+      <DependentUpon>201903120217498_update models3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903120122113_update models2.resx">
-      <DependentUpon>201903120122113_update models2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903120257317_update models4.resx">
+      <DependentUpon>201903120257317_update models4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

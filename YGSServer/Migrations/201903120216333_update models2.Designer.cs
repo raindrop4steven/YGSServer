@@ -7,13 +7,13 @@ namespace YGSServer.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class updatemodels : IMigrationMetadata
+    public sealed partial class updatemodels2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updatemodels));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(updatemodels2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201903110454320_update models"; }
+            get { return "201903120216333_update models2"; }
         }
         
         string IMigrationMetadata.Source

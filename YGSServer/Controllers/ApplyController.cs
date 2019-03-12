@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Appkiz.Library.Security;
+using Appkiz.Library.Security.Authentication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,12 +21,15 @@ namespace YGSServer.Controllers
                 /*
                  * 变量定义
                  */
+                var employee = (User.Identity as AppkizIdentity).Employee;
+                OrgMgr orgMgr = new OrgMgr();
+
                 // 页数
                 int page = WHConstants.Default_Page;
                 // 分页大小
                 int pageSize = WHConstants.Default_Page_Size;
                 // 申请数据
-                var applyList = db.Apply.Where(n => n.ID > 0);
+                var applyList = db.Apply.Where(n => n.UserId == employee.EmplID);
 
                 /*
                  * 参数获取
@@ -109,8 +114,8 @@ namespace YGSServer.Controllers
                         outName = apply.OutName,
                         desc = apply.Desc,
                         applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                        applyUser = apply.UserId,
-                        outUsers = db.User.Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                        applyUser = orgMgr.GetEmployee(apply.UserId),
+                        outUsers = db.User.ToList().Where(m => apply.OutUsers.Split(',').Select(int.Parse).Contains(m.ID)).Select(m => new
                         {
                             id = m.ID,
                             name = m.Name
@@ -167,16 +172,16 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.User.Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
+                                outUsers = db.User.ToList().Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
                                     id = m.ID,
                                     name = m.Name
-                                }).ToList(),
-                                applyAtt = db.Attachment.Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                }),
+                                applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
                                     id = m.ID,
                                     name = m.Name,
-                                    url = m.Path
-                                }).ToList(),
+                                    url = Url.Action("Download", "Common", new { id = m.ID })
+                                }),
                                 outDate = new
                                 {
                                     show = apply.OutDate != null,
@@ -185,12 +190,12 @@ namespace YGSServer.Controllers
                                 afterAtt = new
                                 {
                                     show = apply.AfterAtt != null,
-                                    data = db.Attachment.Where(m => apply.AfterAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                    data = apply.AfterAtt == null ? null : db.Attachment.ToList().Where(m => apply.AfterAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                     {
                                         id = m.ID,
                                         name = m.Name,
-                                        url = m.Path
-                                    }).ToList()
+                                        url = Url.Action("Download", "Common", new { id = m.ID })
+                                    })
                                 }
                             }
                         }
@@ -241,16 +246,16 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.User.Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
+                                outUsers = db.User.ToList().Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
                                     id = m.ID,
                                     name = m.Name
-                                }).ToList(),
-                                applyAtt = db.Attachment.Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                }),
+                                applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
                                     id = m.ID,
                                     name = m.Name,
-                                    url = m.Path
-                                }).ToList(),
+                                    url = Url.Action("Download", "Common", new { id = m.ID })
+                                }),
                                 outDate = new
                                 {
                                     show = apply.OutDate != null,
@@ -259,12 +264,12 @@ namespace YGSServer.Controllers
                                 afterAtt = new
                                 {
                                     show = apply.AfterAtt != null,
-                                    data = db.Attachment.Where(m => apply.AfterAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                                    data = apply.AfterAtt == null ? null: db.Attachment.ToList().Where(m => apply.AfterAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                     {
                                         id = m.ID,
                                         name = m.Name,
-                                        url = m.Path
-                                    }).ToList()
+                                        url = Url.Action("Download", "Common", new { id = m.ID })
+                                    })
                                 }
                             }
                         }
@@ -451,6 +456,11 @@ namespace YGSServer.Controllers
         public ActionResult DoAdd(FormCollection collection)
         {
             /*
+             * 变量定义
+             */
+            // 当前用户
+            var employee = (User.Identity as AppkizIdentity).Employee;
+            /*
              * 参数获取
              */
             // 组团名
@@ -475,6 +485,11 @@ namespace YGSServer.Controllers
             // 出访任务
             if (string.IsNullOrEmpty(descn))
             {
+                return ResponseUtil.Error(400, "任务描述不能为空");
+            }
+            // 出访类型
+            if (string.IsNullOrEmpty(credType))
+            {
                 return ResponseUtil.Error(400, "出访类型不能为空");
             }
             // 人员ID列表
@@ -496,8 +511,13 @@ namespace YGSServer.Controllers
                 var apply = new YGS_Apply();
                 apply.OutName = outName;
                 apply.Desc = descn;
+                apply.UserId = employee.EmplID;
+                apply.CredType = credType;
                 apply.OutUsers = outUsers;
                 apply.ApplyAtt = applyAtt;
+                apply.ApplyStatus = WHConstants.Apply_Status_Examing;
+                apply.ApplyDate = DateTime.Now;
+                apply.NextStep = "下载并填写表格";
                 apply.CreateTime = DateTime.Now;
                 apply.UpdateTime = DateTime.Now;
                 db.Apply.Add(apply);

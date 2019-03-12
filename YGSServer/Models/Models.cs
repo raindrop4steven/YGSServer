@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -76,7 +77,7 @@ namespace YGSServer.Models
         [Key]
         public int ID { get; set; }
         // 申请人
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         // 组团名
         public string OutName { get; set; }
         // 出访任务
@@ -102,9 +103,9 @@ namespace YGSServer.Models
         // 下一步
         public string NextStep { get; set; }
         // 添加日期
-        public DateTime CreateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
         // 更新日期
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
     }
     #endregion
 

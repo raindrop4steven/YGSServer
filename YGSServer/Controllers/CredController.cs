@@ -42,52 +42,51 @@ namespace YGSServer.Controllers
                 }
             }
 
-            using (var db = new YGSDbContext())
-            {
-                var user = db.User.Where(n => n.ID == id).FirstOrDefault();
-                if (user == null)
-                {
-                    return ResponseUtil.Error(400, "用户不存在");
-                }
-                else
-                {
-                    // 证件列表
-                    var credList = db.Cred.Where(n => n.UserID == id).ToList().Select(n => new
-                    {
-                        id = n.ID,
-                        tradeCode = n.TradeCode,
-                        name = n.Name,
-                        sex = n.Sex,
-                        credUnit = n.CredUnit,
-                        credDate = n.CredDate.Value.ToString("yyyy/MM/dd"),
-                        validDate = n.ValidDate.Value.ToString("yyyy/MM/dd"),
-                        validStatus = n.ValidStatus
-                    });
-                    // 出国记录
-                    var outRecords = db.Apply.Where(n => n.UserId == id && n.ApplyStatus == WHConstants.Apply_Status_Passed).ToList().Select(n => new
-                    {
-                        id = n.ID,
-                        outName = n.OutName,
-                        credType = n.CredType,
-                        signStatus = n.SignStatus,
-                        outDate = n.OutDate == null ? "" : n.OutDate.Value.ToString("yyyy/MM/dd"),
-                        outUsers = db.User.Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
-                            id = m.ID,
-                            name = m.Name
-                        }).ToList(),
-                        desc = n.Desc
-                    });
+            var db = new YGSDbContext();
+            var user = db.User.Where(n => n.ID == id).FirstOrDefault();
 
-                    return new JsonNetResult(new
+            if (user == null)
+            {
+                return ResponseUtil.Error(400, "用户不存在");
+            }
+            else
+            {
+                // 证件列表
+                var credList = db.Cred.Where(n => n.UserID == id).ToList().Select(n => new
+                {
+                    id = n.ID,
+                    tradeCode = n.TradeCode,
+                    name = n.Name,
+                    sex = n.Sex,
+                    credUnit = n.CredUnit,
+                    credDate = n.CredDate.Value.ToString("yyyy/MM/dd"),
+                    validDate = n.ValidDate.Value.ToString("yyyy/MM/dd"),
+                    validStatus = n.ValidStatus
+                });
+                // 出国记录
+                var outRecords = db.Apply.Where(n => n.OutUsers.Contains(userId) && n.ApplyStatus == WHConstants.Apply_Status_Passed).ToList().Select(n => new
+                {
+                    id = n.ID,
+                    outName = n.OutName,
+                    credType = n.CredType,
+                    signStatus = n.SignStatus,
+                    outDate = n.OutDate == null ? "" : n.OutDate.Value.ToString("yyyy/MM/dd"),
+                    outUsers = db.User.ToList().Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
+                        id = m.ID,
+                        name = m.Name
+                    }),
+                    desc = n.Desc
+                });
+
+                return new JsonNetResult(new
+                {
+                    code = 200,
+                    data = new
                     {
-                        code = 200,
-                        data = new
-                        {
-                            creds = credList,
-                            applyRecords = outRecords
-                        }
-                    });
-                }
+                        creds = credList,
+                        applyRecords = outRecords
+                    }
+                });
             }
         }
         #endregion

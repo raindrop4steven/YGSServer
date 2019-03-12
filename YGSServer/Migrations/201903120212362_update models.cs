@@ -3,7 +3,7 @@ namespace YGSServer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class createmodels : DbMigration
+    public partial class updatemodels : DbMigration
     {
         public override void Up()
         {
@@ -12,6 +12,7 @@ namespace YGSServer.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
+                        UserId = c.Int(nullable: false),
                         OutName = c.String(),
                         Desc = c.String(),
                         CredType = c.String(),
@@ -21,6 +22,9 @@ namespace YGSServer.Migrations
                         OutDate = c.DateTime(),
                         SignStatus = c.String(),
                         AfterAtt = c.String(),
+                        ApplyStatus = c.String(),
+                        CheckOpinion = c.String(),
+                        NextStep = c.String(),
                         CreateTime = c.DateTime(),
                         UpdateTime = c.DateTime(),
                     })
@@ -43,6 +47,7 @@ namespace YGSServer.Migrations
                         ID = c.Int(nullable: false, identity: true),
                         UserID = c.Int(nullable: false),
                         TradeCode = c.String(),
+                        CredType = c.String(),
                         Name = c.String(),
                         Sex = c.Int(nullable: false),
                         CredUnit = c.String(),
