@@ -272,6 +272,8 @@ namespace YGSServer.Controllers
                     user.Depart = depart;
                     user.Level = level;
                     user.Duty = duty;
+                    user.CreateTime = DateTime.Now;
+                    user.UpdateTime = DateTime.Now;
                     db.User.Add(user);
                     db.SaveChanges();
 
@@ -285,7 +287,6 @@ namespace YGSServer.Controllers
 
         }
         #endregion
-
 
         #region 添加临时用户
         [HttpPost]
@@ -337,6 +338,10 @@ namespace YGSServer.Controllers
                             id = user.ID
                         }
                     });
+                }
+                else
+                {
+                    return ResponseUtil.Error(400, "用户已存在");
                 }
             }
         }
@@ -511,17 +516,26 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
-                    user.Name = name;
-                    user.Sex = sex;
-                    user.Location = location;
-                    user.BirthDay = birthday;
-                    user.CredNo = credNo;
-                    user.Unit = unit;
-                    user.Depart = depart;
-                    user.Level = level;
-                    user.Duty = duty;
-                    db.SaveChanges();
-                    return ResponseUtil.OK(200, "更新成功");
+                    var credUser = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
+                    if (credUser != null && credUser.ID != user.ID)
+                    {
+                        return ResponseUtil.Error(400, "相同身份证号用户已存在");
+                    }
+                    else
+                    {
+                        user.Name = name;
+                        user.Sex = sex;
+                        user.Location = location;
+                        user.BirthDay = birthday;
+                        user.CredNo = credNo;
+                        user.Unit = unit;
+                        user.Depart = depart;
+                        user.Level = level;
+                        user.Duty = duty;
+                        user.UpdateTime = DateTime.Now;
+                        db.SaveChanges();
+                        return ResponseUtil.OK(200, "更新成功");
+                    }
                 }
             }
         }
@@ -551,7 +565,7 @@ namespace YGSServer.Controllers
                             name = user.Name,
                             sex = user.Sex,
                             location = user.Location,
-                            birthDay = user.BirthDay.Value.ToString("yyyy/MM/dd"),
+                            birthDay = user.BirthDay == null ? null : user.BirthDay.Value.ToString("yyyy/MM/dd"),
                             credNo = user.CredNo,
                             unit = user.Unit,
                             depart = user.Depart,

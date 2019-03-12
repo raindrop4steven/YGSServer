@@ -182,6 +182,10 @@
     <Compile Include="Migrations\201903110454320_update models.Designer.cs">
       <DependentUpon>201903110454320_update models.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903120122113_update models2.cs" />
+    <Compile Include="Migrations\201903120122113_update models2.Designer.cs">
+      <DependentUpon>201903120122113_update models2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -256,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903110454320_update models.resx">
       <DependentUpon>201903110454320_update models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903120122113_update models2.resx">
+      <DependentUpon>201903120122113_update models2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
