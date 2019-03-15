@@ -108,13 +108,14 @@ namespace YGSServer.Controllers
 
                 foreach(var apply in resultRecords)
                 {
+                    var applyEmployee = orgMgr.GetEmployee(apply.UserId);
                     applys.Add(new
                     {
                         id = apply.ID,
                         outName = apply.OutName,
                         desc = apply.Desc,
                         applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                        applyUser = orgMgr.GetEmployee(apply.UserId),
+                        applyUser = applyEmployee == null ? null : string.Format("{0} {1}", applyEmployee.DeptName, applyEmployee.EmplName),
                         outUsers = db.User.ToList().Where(m => apply.OutUsers.Split(',').Select(int.Parse).Contains(m.ID)).Select(m => new
                         {
                             id = m.ID,
@@ -297,7 +298,7 @@ namespace YGSServer.Controllers
             // 团组名
             var outName = collection["outName"];
             // 出访任务
-            var descn = collection["descn"];
+            var descn = collection["desc"];
             // 出访类型
             var credType = collection["credType"];
             // 人员ID列表
@@ -466,7 +467,7 @@ namespace YGSServer.Controllers
             // 组团名
             var outName = collection["outName"];
             // 任务描述
-            var descn = collection["descn"];
+            var descn = collection["desc"];
             // 出访类型
             var credType = collection["credType"];
             // 出访人员
