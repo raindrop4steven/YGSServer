@@ -186,6 +186,30 @@
     <Compile Include="Migrations\201903120257317_update models4.Designer.cs">
       <DependentUpon>201903120257317_update models4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903210628022_add hisotry model.cs" />
+    <Compile Include="Migrations\201903210628022_add hisotry model.Designer.cs">
+      <DependentUpon>201903210628022_add hisotry model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903210630463_add hisotry model2.cs" />
+    <Compile Include="Migrations\201903210630463_add hisotry model2.Designer.cs">
+      <DependentUpon>201903210630463_add hisotry model2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903210633296_add hisotry model3.cs" />
+    <Compile Include="Migrations\201903210633296_add hisotry model3.Designer.cs">
+      <DependentUpon>201903210633296_add hisotry model3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903210646265_add hisotry model4.cs" />
+    <Compile Include="Migrations\201903210646265_add hisotry model4.Designer.cs">
+      <DependentUpon>201903210646265_add hisotry model4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903210646586_add hisotry model5.cs" />
+    <Compile Include="Migrations\201903210646586_add hisotry model5.Designer.cs">
+      <DependentUpon>201903210646586_add hisotry model5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903210727262_add hisotry model6.cs" />
+    <Compile Include="Migrations\201903210727262_add hisotry model6.Designer.cs">
+      <DependentUpon>201903210727262_add hisotry model6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -332,6 +356,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903120257317_update models4.resx">
       <DependentUpon>201903120257317_update models4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903210628022_add hisotry model.resx">
+      <DependentUpon>201903210628022_add hisotry model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903210630463_add hisotry model2.resx">
+      <DependentUpon>201903210630463_add hisotry model2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903210633296_add hisotry model3.resx">
+      <DependentUpon>201903210633296_add hisotry model3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903210646265_add hisotry model4.resx">
+      <DependentUpon>201903210646265_add hisotry model4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903210646586_add hisotry model5.resx">
+      <DependentUpon>201903210646586_add hisotry model5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903210727262_add hisotry model6.resx">
+      <DependentUpon>201903210727262_add hisotry model6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

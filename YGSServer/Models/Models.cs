@@ -109,6 +109,20 @@ namespace YGSServer.Models
     }
     #endregion
 
+    #region 用户申请履历
+    public class YGS_History
+    {
+        // Key
+        public int ID { get; set; }
+        // 申请人ID
+        public int UserId { get; set; }
+        // 签证号
+        public string SignNo { get; set; }
+        // 签证日期
+        public DateTime? SignTime { get; set; }
+    }
+    #endregion
+
     #region 附件模型
     public class YGS_Att
     {
@@ -133,6 +147,8 @@ namespace YGSServer.Models
         public DbSet<YGS_Apply> Apply { get; set; }
         // 附件
         public DbSet<YGS_Att> Attachment { get; set; }
+        // 用户申请履历
+        public DbSet<YGS_History> History { get; set; }
     }
     #endregion
 }
