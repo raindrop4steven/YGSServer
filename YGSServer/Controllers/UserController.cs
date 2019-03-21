@@ -373,6 +373,8 @@ namespace YGSServer.Controllers
                                 credNo = user.CredNo,
                                 name = user.Name,
                                 sex = user.Sex,
+                                location = user.Location,
+                                birthDay = user.BirthDay == null ? null : user.BirthDay.Value.ToString("yyyy/MM/dd"),
                                 unit = user.Unit,
                                 depart = user.Depart,
                                 level = user.Level,

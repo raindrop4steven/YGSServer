@@ -264,7 +264,7 @@ namespace YGSServer.Controllers
                                 },
                                 afterAtt = new
                                 {
-                                    show = apply.AfterAtt != null,
+                                    show = apply.ApplyStatus == WHConstants.Apply_Status_Passed || apply.AfterAtt != null,
                                     data = apply.AfterAtt == null ? null: db.Attachment.ToList().Where(m => apply.AfterAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                     {
                                         id = m.ID,
@@ -364,6 +364,11 @@ namespace YGSServer.Controllers
                     if(!string.IsNullOrEmpty(afterAtt))
                     {
                         apply.AfterAtt = afterAtt;
+                    }
+                    // 如果当前申请是被拒绝，则重新到待审核中
+                    if(apply.ApplyStatus == WHConstants.Apply_Status_Rejected)
+                    {
+                        apply.ApplyStatus = WHConstants.Apply_Status_Examing;
                     }
                     db.SaveChanges();
 

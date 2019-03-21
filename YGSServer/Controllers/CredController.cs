@@ -160,6 +160,8 @@ namespace YGSServer.Controllers
                                 credNo = user.CredNo,
                                 name = user.Name,
                                 sex = user.Sex,
+                                location = user.Location,
+                                birthDay = user.BirthDay == null ? null : user.BirthDay.Value.ToString("yyyy/MM/dd"),
                                 unit = user.Unit,
                                 depart = user.Depart,
                                 level = user.Level,
@@ -279,6 +281,7 @@ namespace YGSServer.Controllers
                     var cred = new YGS_Cred();
                     cred.UserID = uid;
                     cred.Name = user.Name;
+                    cred.Sex = user.Sex;
                     cred.TradeCode = tradeCode;
                     cred.CredType = credType;
                     cred.CredUnit = credUnit;
@@ -349,6 +352,8 @@ namespace YGSServer.Controllers
                                     credNo = user.CredNo,
                                     name = user.Name,
                                     sex = user.Sex,
+                                    location = user.Location,
+                                    birthDay = user.BirthDay == null ? null : user.BirthDay.Value.ToString("yyyy/MM/dd"),
                                     unit = user.Unit,
                                     depart = user.Depart,
                                     level = user.Level,

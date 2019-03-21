@@ -85,15 +85,16 @@ namespace YGSServer.Controllers
                     byte[] filedata = System.IO.File.ReadAllBytes(filepath);
                     string contentType = MimeMapping.GetMimeMapping(filepath);
 
-                    var cd = new System.Net.Mime.ContentDisposition
-                    {
-                        FileName = attach.Name,
-                        Inline = true,
-                    };
+                    //var cd = new System.Net.Mime.ContentDisposition
+                    //{
+                    //    FileName = attach.Name,
+                    //    Inline = true,
+                    //};
 
-                    Response.AppendHeader("Content-Disposition", cd.ToString());
+                    //Response.AppendHeader("Content-Disposition", cd.ToString());
 
-                    return File(filedata, contentType);
+                    //return File(filedata, contentType);
+                    return File(filedata, contentType, attach.Name);
                 }
             }
         }
