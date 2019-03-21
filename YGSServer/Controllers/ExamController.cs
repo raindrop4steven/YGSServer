@@ -142,7 +142,9 @@ namespace YGSServer.Controllers
             foreach (var apply in resultRecords)
             {
                 var applyEmployee = orgMgr.GetEmployee(apply.UserId);
-
+                // 获得所有外出人员id
+                var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                var outUserIds = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => n.UserId).ToList();
                 applys.Add(new
                 {
                     id = apply.ID,
@@ -150,7 +152,7 @@ namespace YGSServer.Controllers
                     desc = apply.Desc,
                     applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
                     applyUser = applyEmployee == null ? null : string.Format("{0} {1}", applyEmployee.DeptName, applyEmployee.EmplName),
-                    outUsers = db.User.ToList().Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                    outUsers = db.User.ToList().Where(m => outUserIds.Contains(m.ID)).Select(m => new
                     {
                         id = m.ID,
                         name = m.Name,
@@ -195,6 +197,9 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
+                    // 获得所有外出人员id
+                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+
                     return new JsonNetResult(new
                     {
                         code = 200,
@@ -207,11 +212,14 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.User.ToList().Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
-                                    id = m.ID,
-                                    name = m.Name,
-                                    credNo = m.CredNo
-                                }),
+                                outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
+                                {
+                                    id = n.ID,
+                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
+                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
+                                    signNo = n.SignNo,
+                                    signTime = n.SignTime
+                                }).ToList(),
                                 applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
                                     id = m.ID,
@@ -258,6 +266,8 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
+                    // 获得所有外出人员id
+                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
                     return new JsonNetResult(new
                     {
                         code = 200,
@@ -284,11 +294,14 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.User.ToList().Where(m => apply.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
-                                    id = m.ID,
-                                    name = m.Name,
-                                    credNo = m.CredNo
-                                }),
+                                outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
+                                {
+                                    id = n.ID,
+                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
+                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
+                                    signNo = n.SignNo,
+                                    signTime = n.SignTime
+                                }).ToList(),
                                 applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
                                     id = m.ID,
@@ -403,6 +416,11 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
+                    // 查询所有对应的履历
+                    // 获得所有外出人员id
+                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                    var historyList = db.History.Where(n => historyIdList.Contains(n.ID)).ToList();
+                    db.History.RemoveRange(historyList);
                     db.Apply.Remove(apply);
                     db.SaveChanges();
 
@@ -473,7 +491,19 @@ namespace YGSServer.Controllers
                     apply.CheckOpinion = checkOpinion;
                     if (checkStatus == WHConstants.Check_Status_Pass)
                     {
-                        apply.ApplyStatus = WHConstants.Apply_Status_Passed;
+                        // 获得所有外出人员id
+                        var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                        var outUserIds = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => n.UserId).ToList();
+                        var illegalUsers = db.User.Where(m => outUserIds.Contains(m.ID) && string.IsNullOrEmpty(m.CredNo)).ToList();
+
+                        if (illegalUsers.Count > 0)
+                        {
+                            return ResponseUtil.Error(400, "出国人员缺少身份证号，请先到申请详情中补全");
+                        }
+                        else
+                        {
+                            apply.ApplyStatus = WHConstants.Apply_Status_Passed;
+                        }
                     }
                     else
                     {

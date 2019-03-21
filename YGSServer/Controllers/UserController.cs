@@ -26,7 +26,7 @@ namespace YGSServer.Controllers
                 // 性别
                 int sex = 0;
                 // 用户列表
-                var userList = db.User.Where(n => n.ID > 0);
+                var userList = db.User.Where(n => !string.IsNullOrEmpty(n.CredNo));
 
                 /*
                  * 参数获取

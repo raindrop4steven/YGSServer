@@ -184,8 +184,8 @@ namespace YGSServer.Controllers
                                 outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
                                 {
                                     id = n.ID,
-                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name),
-                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo),
+                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
+                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
                                     signNo = n.SignNo,
                                     signTime = n.SignTime
                                 }).ToList(),
@@ -264,8 +264,8 @@ namespace YGSServer.Controllers
                                 outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
                                 {
                                     id = n.ID,
-                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name),
-                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo),
+                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
+                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
                                     signNo = n.SignNo,
                                     signTime = n.SignTime
                                 }).ToList(),
