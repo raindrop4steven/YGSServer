@@ -78,10 +78,10 @@ namespace YGSServer.Controllers
                     outUsers = db.History.Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(n.ID)).Select(m => new
                     {
                         id = m.ID,
-                        name = db.User.Where(u => u.ID == m.UserId).Select(u => u.Name).FirstOrDefault(),
-                        signNo = m.SignNo,
-                        signTime = m.SignTime
+                        name = db.User.Where(u => u.ID == m.UserId).Select(u => u.Name).FirstOrDefault()
                     }).ToList(),
+                    signNo = db.History.Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => m.SignNo).FirstOrDefault(),
+                    signTime = db.History.Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => m.SignTime.Value).FirstOrDefault().ToString("yyyy/MM/dd"),
                     desc = n.Desc
                 });
 
