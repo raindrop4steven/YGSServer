@@ -75,7 +75,7 @@ namespace YGSServer.Controllers
                     //    id = m.ID,
                     //    name = m.Name
                     //}),
-                    outUsers = db.History.Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(n.ID)).Select(m => new
+                    outUsers = db.History.Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                     {
                         id = m.ID,
                         name = db.User.Where(u => u.ID == m.UserId).Select(u => u.Name).FirstOrDefault()
