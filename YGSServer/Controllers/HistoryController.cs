@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using YGSServer.Common;
@@ -66,6 +67,11 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
+                    // 校验身份证格式
+                    if ((!Regex.IsMatch(credNo, @"^(^\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$", RegexOptions.IgnoreCase)))
+                    {
+                        return ResponseUtil.Error(400, "身份证格式不正确");
+                    }
                     // 输入了身份证号，则进行校验，身份信息是否正确。
                     // 如果身份证与姓名一致，则返回用户ID，如果不正确，则该用户已存在，输入身份证重复
                     var user = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
@@ -197,6 +203,14 @@ namespace YGSServer.Controllers
             if(string.IsNullOrEmpty(credNo))
             {
                 return ResponseUtil.Error(400, "请填写身份证号");
+            }
+            else
+            {
+                // 校验身份证格式
+                if ((!Regex.IsMatch(credNo, @"^(^\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$", RegexOptions.IgnoreCase)))
+                {
+                    return ResponseUtil.Error(400, "身份证格式不正确");
+                }
             }
             // 签证时间
             if(!string.IsNullOrEmpty(signTimeString))

@@ -127,7 +127,7 @@ namespace YGSServer.Controllers
                             name = m.Name
                         }).ToList(),
                         checkOpinion = apply.CheckOpinion,
-                        nextStep = apply.NextStep
+                        nextStep = apply.ApplyStatus == WHConstants.Apply_Status_Examing ? "等待领导审批" : (apply.ApplyStatus == WHConstants.Apply_Status_Passed ? "下载并填写表格" : "修改并重新提交审核")
                     });
                 }
 
