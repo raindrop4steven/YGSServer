@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html";charset=utf-8>
         <style type="text/css">
         * {
             padding:0;
             margin:0;
-            box-sizing:unset !important;
-            font-size:16px !important;
 
         }
-
             ul ,li{
                 list-style: none;
-            
             }
         #wrap {
-            margin: 10px 20px ;
+            width: 1200px;
         }
 
         #topbar{
             height: 50px;
+            width:100%;
             border-bottom:  1px solid #d9d9d9;
+            position:fixed;
+            top:52px;
         }
         .toolbar a{
             font-size: 1.4em !important;
@@ -32,6 +32,7 @@
         }
 
         #content {
+            margin-top: 100px;
 
         }
 
@@ -46,48 +47,60 @@
 
         .doc-content  img {
             margin-top:3px;
-            height:800px;
+            width:600px;
+            height:700px;
             border:solid 3px #d9d9d9;
         }
 
         .doc-menu ul {
             width: 350px !important;
-            min-height: 600px;
-            height :100%;
+            min-height: 485px;
             border-right: 1px solid #d9d9d9;
         }
+        .white{
+            height: 100px;
+            width: 350px;
+        }
 
-        .doc-menu li {
-            cursor: pointer;
-            height: 25px;
-            line-height: 25px;    
-            padding: 7px 0 ;
-            border-bottom: 1px solid #d9d9d9;
-          }
+            .doc-menu li {
+                box-sizing: unset !important;
+                cursor: pointer;
+                height: 25px;
+                line-height: 25px;
+                padding: 7px 0;
+                border-bottom: 1px solid #d9d9d9;
+            }
           .doc-menu a{
             font-size:1.2em !important;
             font-weight: bold;
             color: blue;
-            border-bottom:solid 2px ;
+            text-decoration:underline;
 
+          }
+          span{
+              font-size: 1.1em !important;
           }
           .doc-menu {
-              float:left;
-          }
-          .margin{
-              width:180px;
-              height: 1px;
-              float:left;
-
+              margin-left:130px;
+              position:fixed;
+              top:102px;
           }
 
 
         .doc-wrap .doc-menu{
         }
-
+        .doc-content img {
+            width:800px;
+            height:1200px;
+        }
         .doc-content{
-            width:560px;
-            float: left;
+            margin-left:76px;
+            width:820px;
+            position:fixed;
+            top:110px;
+            left:500px;
+            height: 760px;
+            overflow: auto;
         }
 
         .doc-content li{
@@ -98,11 +111,16 @@
             display: none;
         }
 
-        li a {
-            display: block;
-            color:blue;
-           text-decoration: underline; 
-        }
+            li a {
+                font-size: 1.15em !important;
+                display: block;
+                color: blue;
+                text-decoration: underline;
+            }
+            span {
+                box-sizing: unset !important;
+                color: darkred;
+            }
         </style>
         <title>表格下载</title>
         <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
@@ -146,7 +164,7 @@
                     <a id="btn-fxw" href="javascript:;">非新吴区组团表格</a>
                 </div>       
             </div>
-            <div id="content"><!--第二层，底部-->
+            <div id="content"><!--第二层，主体-->
                 <div id="xw" class="doc-wrap"><!--第三层，新吴区组团-->
                     <div class="doc-menu"><!--第四层，列表-->
                         <ul id="">    
@@ -161,53 +179,53 @@
                             <li data-m="l-9">因公临时出国（境）团组信息反馈表</li>
                             <li data-m="l-10">因公出国（境）人员国家安全事项报备表</li>
                         </ul>
+                        <div class="white"></div>
 
                         <div class="download">
-                            <a href="~/Content/files/download/true/新吴区组团.docx" id="">全部下载：新吴组团组团出访申请表</a>
+                            <a href="~/Content/files/download/true/新吴区组团.docx" id="">全部下载：新吴区组团出访申请表</a>
                         </div>
                     </div>
-                    <div class="margin"></div>
                     <div class="doc-content"><!--第四层，图片及下载-->
                         <ul id="" >
                             <li class="m-1" style="display: block">
+                                <a href="~/Content/files/download/true/因公出国（境）信息公示.docx" download="因公出国（境）信息公示.docx"><span class="decoation:none">下载：</span>因公出国（境）信息公示</a>
                                 <img src="~/Content/files/image/true/因公出国（境）信息公示.png" />
-                                <a href="~/Content/files/download/true/因公出国（境）信息公示.docx" download="因公出国（境）信息公示.docx"><span>下载：</span>因公出国（境）信息公示</a>
                             </li>
                             <li class="m-2">
-                                <img src="~/Content/files/image/true/出访活动日程表.png" /><img src="~/Content/files/image/true/出访活动日程表(1).png" />
                                 <a href="~/Content/files/download/true/出访活动日程表.docx" download="出访活动日程表.docx"><span>下载：</span>出访活动日程表</a>
+                                <img src="~/Content/files/image/true/出访活动日程表.png" /><img src="~/Content/files/image/true/出访活动日程表(1).png" />
                             </li>
-                            <li class="m-3" >
-                                <img src="~/Content/files/image/true/因公临时出国（境）表格.png" />
+                            <li class="m-3">
                                 <a href="~/Content/files/download/true/因公临时出国（境）表格.docx" download="因公临时出国（境）表格.docx"><span>下载：</span>因公临时出国（境）表格</a>
+                                <img src="~/Content/files/image/true/因公临时出国（境）表格.png" />
                             </li>
                             <li class="m-4">
+                                <a href="~/Content/files/download/true/出访人员名单.docx" download="出访人员名单.docx"><span>下载：</span>出访人员名单表格</a>
                                 <img src="~/Content/files/image/true/出访人员名单.png" />
-                                <a href="~/Content/files/download/true/出访人员名单.docx" download="出访人员名单.docx"><span>下载：</span>出访人员名单表格下载</a>
                             </li>
                             <li class="m-5">
-                                <img src="~/Content/files/image/true/无锡市因公出国（境）经费审核表.png" />
                                 <a href="~/Content/files/download/true/无锡市因公出国（境）经费审核表.docx" download="无锡市因公出国（境）经费审核表.docx"><span>下载：</span>无锡市因公出国（境）经费审核表</a>
+                                <img src="~/Content/files/image/true/无锡市因公出国（境）经费审核表.png" />
                             </li>
                             <li class="m-6">
-                                <img src="~/Content/files/image/true/因公临时出国人员备案表.png" />
                                 <a href="~/Content/files/download/true/因公临时出国人员备案表.docx" download="因公临时出国人员备案表.docx"><span>下载：</span>因公临时出国人员备案表</a>
+                                <img src="~/Content/files/image/true/因公临时出国人员备案表.png" />
                             </li>
                             <li class="m-7">
-                                <img src="~/Content/files/image/true/因公出国（境）团组承诺书.png" />
                                 <a href="~/Content/files/download/true/因公出国（境）团组承诺书.docx" download="因公出国（境）团组承诺书.docx"><span>下载：</span>因公出国（境）团组承诺书</a>
+                                <img src="~/Content/files/image/true/因公出国（境）团组承诺书.png" />
                             </li>
                             <li class="m-8">
-                                <img src="~/Content/files/image/true/因公出国（境）人员国家安全事项承诺书.png" />
                                 <a href="~/Content/files/download/true/因公出国（境）人员国家安全事项承诺书.docx" download="因公出国（境）人员国家安全事项承诺书.docx"><span>下载：</span>因公出国（境）人员国家安全事项承诺书</a>
+                                <img src="~/Content/files/image/true/因公出国（境）人员国家安全事项承诺书.png" />
                             </li>
                             <li class="m-9">
-                                <img src="~/Content/files/image/true/因公临时出国（境）团组信息反馈表.png" />
                                 <a href="~/Content/files/download/true/因公临时出国（境）团组信息反馈表.docx" download="因公临时出国（境）团组信息反馈表.docx"><span>下载：</span>因公临时出国（境）团组信息反馈表</a>
+                                <img src="~/Content/files/image/true/因公临时出国（境）团组信息反馈表.png" />
                             </li>
                             <li class="m-10">
-                                <img src="~/Content/files/image/true/因公出国（境）人员国家安全事项报备表.png" /><img src="~/Content/files/image/true/因公出国（境）人员国家安全事项报备表(1).png" />
                                 <a href="~/Content/files/download/true/因公出国（境）人员国家安全事项报备表.docx" download="因公出国（境）人员国家安全事项报备表.docx"><span>下载：</span>因公出国（境）人员国家安全事项报备表</a>
+                                <img src="~/Content/files/image/true/因公出国（境）人员国家安全事项报备表.png" /><img src="~/Content/files/image/true/因公出国（境）人员国家安全事项报备表(1).png" />
                             </li>
                         </ul>
 
@@ -220,9 +238,9 @@
                             <li data-m="l-1" class="current" >因公出国（境）信息公示</li>
                             <li data-m="l-2">出访活动日程表</li>
                             <li data-m="l-3">非新吴区组团出访申报表</li>
-                            <li data-m="l-4">出访人员名单1</li> 
+                            <li data-m="l-4">出访人员名单（非新吴）</li> 
                             <li data-m="l-5">非本市组团出访预报表</li>
-                            <li data-m="l-6">出访人员名单2</li>
+                            <li data-m="l-6">出访人员名单（非本市）</li>
                             <li data-m="l-7">无锡市因公出国（境）经费审核表</li>
                             <li data-m="l-8">因公临时出国人员备案表</li>
                             <li data-m="l-9">因公出国（境）团组承诺书</li>
@@ -230,60 +248,60 @@
                             <li data-m="l-11">因公临时出国（境）团组信息反馈表</li>
                             <li data-m="l-12">因公出国（境）人员国家安全事项报备表</li>
                         </ul>
+                        <div class="white"></div>
                         <div class="download">
-                             <a href="~/Content/files/download/false/非新吴区、非本市组团出访申报表.docx">全部下载：非新吴组团组团出访申请表</a>
+                             <a href="~/Content/files/download/false/非新吴区、非本市组团出访申报表.docx">全部下载：非新吴区组团出访申请表</a>
                         </div>
                     </div>
-                    <div class="margin"></div>
                     <div class="doc-content"><!--第四层，图片及下载-->
                         <ul id="" >
                             <li class="m-1" style="display: block">
-                                <img src="~/Content/files/image/false/因公出国（境）信息公示.png" />
                                 <a href="~/Content/files/download/false/因公出国（境）信息公示.docx" download="因公出国（境）信息公示.docx"><span>下载：</span>因公出国（境）信息公示</a>
+                                <img src="~/Content/files/image/false/因公出国（境）信息公示.png" />
                             </li>
                             <li class="m-2">
-                                <img src="~/Content/files/image/false/出访活动日程表.png" /><img src="~/Content/files/image/false/出访活动日程表(1).png" />
                                 <a href="~/Content/files/download/false/出访活动日程表.docx" download="出访活动日程表.docx"><span>下载：</span>出访活动日程表</a>
+                                <img src="~/Content/files/image/false/出访活动日程表.png" /><img src="~/Content/files/image/false/出访活动日程表(1).png" />
                             </li>
-                            <li class="m-3" >
-                                <img src="~/Content/files/image/false/非新吴区组团出访申报表.png" />
+                            <li class="m-3">
                                 <a href="~/Content/files/download/false/非新吴区组团出访申报表.docx" download="非新吴区组团出访申报表.docx"><span>下载：</span>非新吴区组团出访申报表</a>
+                                <img src="~/Content/files/image/false/非新吴区组团出访申报表.png" />
                             </li>
                             <li class="m-4">
-                                <img src="~/Content/files/image/false/出访人员名单1.png" />
                                 <a href="~/Content/files/download/false/出访人员名单1.docx" download="出访人员名单1.docx"><span>下载：</span>出访人员名单1</a>
+                                <img src="~/Content/files/image/false/出访人员名单1.png" />
                             </li>
                             <li class="m-5">
-                                <img src="~/Content/files/image/false/非本市组团出访预报表.png" /><img src="~/Content/files/image/false/非本市组团出访预报表(1).png" />
                                 <a href="~/Content/files/download/false/非本市组团出访预报表.docx" download="非本市组团出访预报表.docx"><span>下载：</span>非本市组团出访预报表</a>
+                                <img src="~/Content/files/image/false/非本市组团出访预报表.png" /><img src="~/Content/files/image/false/非本市组团出访预报表(1).png" />
                             </li>
                             <li class="m-6">
-                                <img src="~/Content/files/image/false/出访人员名单2.png" /><img src="~/Content/files/image/false/出访人员名单2(1).png" />
                                 <a href="~/Content/files/download/false/出访人员名单2.docx" download="出访人员名单2.docx"><span>下载：</span>出访人员名单2</a>
+                                <img src="~/Content/files/image/false/出访人员名单2.png" /><img src="~/Content/files/image/false/出访人员名单2(1).png" />
                             </li>
                             <li class="m-7">
-                                <img src="~/Content/files/image/false/无锡市因公出国（境）经费审核表.png" />
                                 <a href="~/Content/files/download/false/无锡市因公出国（境）经费审核表.docx" download="无锡市因公出国（境）经费审核表.docx"><span>下载：</span>无锡市因公出国（境）经费审核表</a>
+                                <img src="~/Content/files/image/false/无锡市因公出国（境）经费审核表.png" />
                             </li>
                             <li class="m-8">
-                                <img src="~/Content/files/image/false/因公临时出国人员备案表.png" />
                                 <a href="~/Content/files/download/false/因公临时出国人员备案表.docx" download="因公临时出国人员备案表.docx"><span>下载：</span>因公临时出国人员备案表</a>
+                                <img src="~/Content/files/image/false/因公临时出国人员备案表.png" />
                             </li>
                             <li class="m-9">
-                                <img src="~/Content/files/image/false/因公出国（境）团组承诺书.png" />
                                 <a href="~/Content/files/download/false/因公出国（境）团组承诺书.docx" download="因公出国（境）团组承诺书.docx"><span>下载：</span>因公出国（境）团组承诺书</a>
+                                <img src="~/Content/files/image/false/因公出国（境）团组承诺书.png" />
                             </li>
                             <li class="m-10">
-                                <img src="~/Content/files/image/false/因公出国（境）人员国家安全事项承诺书.png" />
                                 <a href="~/Content/files/download/false/因公出国（境）人员国家安全事项承诺书.docx" download="因公出国（境）人员国家安全事项承诺书.docx"><span>下载：</span>因公出国（境）人员国家安全事项承诺书</a>
+                                <img src="~/Content/files/image/false/因公出国（境）人员国家安全事项承诺书.png" />
                             </li>
                             <li class="m-11">
-                                <img src="~/Content/files/image/false/因公临时出国（境）团组信息反馈表.png" />
                                 <a href="~/Content/files/download/false/因公临时出国（境）团组信息反馈表.docx" download="因公临时出国（境）团组信息反馈表.docx"><span>下载：</span>因公临时出国（境）团组信息反馈表</a>
+                                <img src="~/Content/files/image/false/因公临时出国（境）团组信息反馈表.png" />
                             </li>
                             <li class="m-12">
-                                <img src="~/Content/files/image/false/因公出国（境）人员国家安全事项报备表.png" /><img src="~/Content/files/image/false/因公出国（境）人员国家安全事项报备表(1).png" />
                                 <a href="~/Content/files/download/false/因公出国（境）人员国家安全事项报备表.docx" download="因公出国（境）人员国家安全事项报备表.docx"><span>下载：</span>因公出国（境）人员国家安全事项报备表</a>
+                                <img src="~/Content/files/image/false/因公出国（境）人员国家安全事项报备表.png" /><img src="~/Content/files/image/false/因公出国（境）人员国家安全事项报备表(1).png" />
                             </li>
                         </ul>
 

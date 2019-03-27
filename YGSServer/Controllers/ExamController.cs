@@ -156,7 +156,7 @@ namespace YGSServer.Controllers
                     {
                         id = m.ID,
                         name = m.Name,
-                        status = db.Cred.Where(n => n.UserID == m.ID).Count() > 0 ? "normal" : "warn"
+                        status = m.CredNo == null ? "fatal" : (db.Cred.Where(n => n.UserID == m.ID).Count() > 0 ? "normal" : "warn")
                     }),
                     checkOpinion = apply.CheckOpinion
                 });
@@ -353,6 +353,8 @@ namespace YGSServer.Controllers
             var outDateString = collection["outDate"];
             // 签证情况
             var signStatus = collection["signStatus"];
+            // 履历ID列表
+            var outUsers = collection["outUsers"];
 
             /*
              * 参数校验
@@ -381,6 +383,11 @@ namespace YGSServer.Controllers
                     return ResponseUtil.Error(400, "出访日期格式不正确");
                 }
             }
+            // 履历ID列表
+            if(string.IsNullOrEmpty(outUsers))
+            {
+                return ResponseUtil.Error(400, "出访人员不能为空");
+            }
 
             /*
              * 更新申请
@@ -396,6 +403,7 @@ namespace YGSServer.Controllers
                 {
                     apply.OutDate = outDate;
                     apply.SignStatus = signStatus;
+                    apply.OutUsers = outUsers;
                     db.SaveChanges();
 
                     return ResponseUtil.OK(200, "更新成功");
