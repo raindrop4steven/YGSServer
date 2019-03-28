@@ -383,6 +383,10 @@ namespace YGSServer.Controllers
                     {
                         apply.AfterAtt = afterAtt;
                     }
+                    else
+                    {
+                        apply.AfterAtt = null;
+                    }
                     // 如果当前申请是被拒绝，则重新到待审核中
                     if(apply.ApplyStatus == WHConstants.Apply_Status_Rejected)
                     {

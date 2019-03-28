@@ -221,38 +221,67 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\files\image\false\出访人员名单1.png" />
+    <Content Include="Content\files\image\false\出访人员名单2%281%29.png" />
     <Content Include="Content\files\image\false\出访人员名单2.png" />
+    <Content Include="Content\files\image\false\出访活动日程表%281%29.png" />
     <Content Include="Content\files\image\false\出访活动日程表.png" />
     <Content Include="Content\files\image\false\因公临时出国人员备案表.png" />
     <Content Include="Content\files\image\false\因公临时出国（境）团组信息反馈表.png" />
     <Content Include="Content\files\image\false\因公出国（境）人员国家安全事项承诺书.png" />
+    <Content Include="Content\files\image\false\因公出国（境）人员国家安全事项报备表%281%29.png" />
     <Content Include="Content\files\image\false\因公出国（境）人员国家安全事项报备表.png" />
     <Content Include="Content\files\image\false\因公出国（境）信息公示.png" />
     <Content Include="Content\files\image\false\因公出国（境）团组承诺书.png" />
-    <Content Include="Content\files\image\false\无锡市因公出国%28境%29经费审核表.png" />
+    <Content Include="Content\files\image\false\无锡市因公出国（境）经费审核表.png" />
     <Content Include="Content\files\image\false\非新吴区组团出访申报表.png" />
+    <Content Include="Content\files\image\false\非本市组团出访预报表%281%29.png" />
     <Content Include="Content\files\image\false\非本市组团出访预报表.png" />
     <Content Include="Content\files\image\true\出访人员名单.png" />
+    <Content Include="Content\files\image\true\出访活动日程表%281%29.png" />
     <Content Include="Content\files\image\true\出访活动日程表.png" />
     <Content Include="Content\files\image\true\因公临时出国人员备案表.png" />
     <Content Include="Content\files\image\true\因公临时出国（境）团组信息反馈表.png" />
     <Content Include="Content\files\image\true\因公临时出国（境）表格.png" />
     <Content Include="Content\files\image\true\因公出国（境）人员国家安全事项承诺书.png" />
+    <Content Include="Content\files\image\true\因公出国（境）人员国家安全事项报备表%281%29.png" />
     <Content Include="Content\files\image\true\因公出国（境）人员国家安全事项报备表.png" />
     <Content Include="Content\files\image\true\因公出国（境）信息公示.png" />
     <Content Include="Content\files\image\true\因公出国（境）团组承诺书.png" />
     <Content Include="Content\files\image\true\无锡市因公出国（境）经费审核表.png" />
     <Content Include="Content\images\appicon.png" />
-    <Content Include="Content\static\css\applyForm.5592f452.css" />
-    <Content Include="Content\static\css\Certificates.d4f75dc8.css" />
-    <Content Include="Content\static\css\CertificatesDetail.d4f75dc8.css" />
-    <Content Include="Content\static\css\index.e44f5460.css" />
-    <Content Include="Content\static\css\partyAffairs.9f7634bd.css" />
-    <Content Include="Content\static\js\applyForm.de232e8e.js" />
-    <Content Include="Content\static\js\Certificates.ad0d014d.js" />
-    <Content Include="Content\static\js\CertificatesDetail.ccd348e2.js" />
-    <Content Include="Content\static\js\index.a62b8bf4.js" />
-    <Content Include="Content\static\js\partyAffairs.3aedf6c2.js" />
+    <Content Include="Content\static\css\applyForm.9b2059ba.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\css\CertificatesDetail.264e2fdb.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\css\Check.a6969eb1.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\css\Cred.c1f53b25.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\css\index.679beb80.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\js\applyForm.ba7d7be5.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\js\CertificatesDetail.4473a272.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\js\Check.4fcd8c6c.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\js\Cred.8166243d.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\js\index.c9577428.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\static\js\jquery-3.3.1.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -264,9 +293,7 @@
     </Content>
     <Content Include="appkiz.config" />
     <Content Include="Content\files\download\.DS_Store" />
-    <Content Include="Content\files\download\false\.DS_Store" />
     <Content Include="Content\files\download\false\.~出访人员名单.docx" />
-    <Content Include="Content\files\download\false\.~吴区、非本市组团出访申报表.docx" />
     <Content Include="Content\files\download\false\出访人员名单1.docx" />
     <Content Include="Content\files\download\false\出访人员名单2.docx" />
     <Content Include="Content\files\download\false\出访活动日程表.docx" />
@@ -292,7 +319,7 @@
     <Content Include="Content\files\download\true\新吴区组团.docx" />
     <Content Include="Content\files\download\true\无锡市因公出国（境）经费审核表.docx" />
     <Content Include="Content\files\image\.DS_Store" />
-    <Content Include="Content\files\image\false\.DS_Store" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -304,14 +331,15 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <None Include="Views\Home\applyForm.cshtml" />
-    <None Include="Views\Home\Certificates.cshtml" />
-    <None Include="Views\Home\CertificatesDetail.cshtml" />
-    <Content Include="Views\Home\Check.cshtml" />
-    <Content Include="Views\Home\Cred.cshtml" />
-    <Content Include="Views\Home\Download.cshtml" />
-    <None Include="Views\Home\index.cshtml" />
-    <None Include="Views\Home\partyAffairs.cshtml" />
+    <Content Include="Views\Home\Check.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Cred.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Download.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -323,6 +351,15 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\applyForm.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\CertificatesDetail.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
