@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Appkiz.Library.Security.Authentication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,16 @@ namespace YGSServer.Controllers
     {
         public ActionResult Index()
         {
-            return View("index");
+            try
+            {
+                // 获得当前用户
+                var employee = (User.Identity as AppkizIdentity).Employee;
+                return View("index");
+            }
+            catch
+            {
+                return Redirect("/Frame/NeedLogon.aspx?ReturnUrl=/Apps/YGS");
+            }
         }
 
         public ActionResult ApplyForm()
@@ -25,17 +35,44 @@ namespace YGSServer.Controllers
 
         public ActionResult Download()
         {
-            return View("Download");
+            try
+            {
+                // 获得当前用户
+                var employee = (User.Identity as AppkizIdentity).Employee;
+                return View("Download");
+            }
+            catch
+            {
+                return Redirect("/Frame/NeedLogon.aspx?ReturnUrl=/Apps/YGS");
+            }
         }
 
         public ActionResult Check()
         {
-            return View("Check");
+            try
+            {
+                // 获得当前用户
+                var employee = (User.Identity as AppkizIdentity).Employee;
+                return View("Check");
+            }
+            catch
+            {
+                return Redirect("/Frame/NeedLogon.aspx?ReturnUrl=/Apps/YGS");
+            }
         }
 
         public ActionResult Cred()
         {
-            return View("Cred");
+            try
+            {
+                // 获得当前用户
+                var employee = (User.Identity as AppkizIdentity).Employee;
+                return View("Cred");
+            }
+            catch
+            {
+                return Redirect("/Frame/NeedLogon.aspx?ReturnUrl=/Apps/YGS");
+            }
         }
 
         public ActionResult CertificatesDetail()
