@@ -522,11 +522,13 @@ namespace YGSServer.Controllers
                         else
                         {
                             apply.ApplyStatus = WHConstants.Apply_Status_Passed;
+                            NotificationUtil.SendNotification(apply.UserId, "您的出国申请已通过", "/Apps/YGS/Home/");
                         }
                     }
                     else
                     {
                         apply.ApplyStatus = WHConstants.Apply_Status_Rejected;
+                        NotificationUtil.SendNotification(apply.UserId, "您的出国申请被拒绝", "/Apps/YGS/Home/");
                     }
                     db.SaveChanges();
 

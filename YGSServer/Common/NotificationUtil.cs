@@ -18,20 +18,15 @@ namespace YGSServer.Common
         /// </summary>
         /// <param name="MessageID">消息ID</param>
         /// <param name="TargetEmployeeID">接收人ID</param>
-        public static bool SendNotification()
+        public static bool SendNotification(string employeeId, string message, string url)
         {
-            var users = GetNotificationUsers();
-
             var data = Newtonsoft.Json.JsonConvert.SerializeObject(new
             {
                 NewWin = true,
-                Url = "/Apps/YGS/Home/Check"
+                Url = url
             });
 
-            foreach(var employeeId in users)
-            {
-                notifyMgr.SendNotification("YGS", employeeId, "您有新的因公出国申请通知", data);
-            }
+            notifyMgr.SendNotification("YGS", employeeId, message, data);
             return true;
         }
 

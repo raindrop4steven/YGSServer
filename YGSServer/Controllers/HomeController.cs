@@ -81,19 +81,5 @@ namespace YGSServer.Controllers
         {
             return View("CertificatesDetail");
         }
-
-        public ActionResult GetNotifcationUsers()
-        {
-            NotificationUtil.SendNotification();
-
-            return new JsonNetResult(new
-            {
-                code = 200,
-                data = new
-                {
-                    message = "通知发送成功！"
-                }
-            });
-        }
     }
 }
