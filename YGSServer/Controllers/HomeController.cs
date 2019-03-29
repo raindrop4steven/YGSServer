@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YGSServer.Common;
+
 
 namespace YGSServer.Controllers
 {
@@ -78,6 +80,20 @@ namespace YGSServer.Controllers
         public ActionResult CertificatesDetail()
         {
             return View("CertificatesDetail");
+        }
+
+        public ActionResult GetNotifcationUsers()
+        {
+            NotificationUtil.SendNotification();
+
+            return new JsonNetResult(new
+            {
+                code = 200,
+                data = new
+                {
+                    message = "通知发送成功！"
+                }
+            });
         }
     }
 }

@@ -159,6 +159,7 @@
     <Compile Include="Common\DbUtil.cs" />
     <Compile Include="Common\DiskUtil.cs" />
     <Compile Include="Common\JsonNetResult.cs" />
+    <Compile Include="Common\NotificationUtil.cs" />
     <Compile Include="Common\ResponseUtil.cs" />
     <Compile Include="Common\WHConstants.cs" />
     <Compile Include="Controllers\ApplyController.cs" />
@@ -264,24 +265,11 @@
     <Content Include="Content\static\css\index.679beb80.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\static\js\applyForm.ba7d7be5.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\CertificatesDetail.4473a272.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\Check.4fcd8c6c.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\Cred.8166243d.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\index.c9577428.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\jquery-3.3.1.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\static\js\applyForm.cfbb51ed.js" />
+    <Content Include="Content\static\js\CertificatesDetail.3aaa8a13.js" />
+    <Content Include="Content\static\js\Check.547d3873.js" />
+    <Content Include="Content\static\js\Cred.f79d9802.js" />
+    <Content Include="Content\static\js\index.136eba94.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

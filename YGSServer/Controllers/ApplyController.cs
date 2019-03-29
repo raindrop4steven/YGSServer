@@ -394,6 +394,8 @@ namespace YGSServer.Controllers
                     }
                     db.SaveChanges();
 
+                    NotificationUtil.SendNotification();
+
                     return ResponseUtil.OK(200, "申请更新成功");
                 }
             }
@@ -556,6 +558,7 @@ namespace YGSServer.Controllers
                 db.Apply.Add(apply);
                 db.SaveChanges();
 
+                NotificationUtil.SendNotification();
                 return ResponseUtil.OK(200, "创建成功");
             }
         }

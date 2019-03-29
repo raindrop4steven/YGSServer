@@ -372,19 +372,27 @@ namespace YGSServer.Controllers
                 }
             }
             // 出访日期
-            if(string.IsNullOrEmpty(outDateString))
+            //if(string.IsNullOrEmpty(outDateString))
+            //{
+            //    return ResponseUtil.Error(400, "出访日期不能为空");
+            //}
+            //else
+            //{
+            //    if(!DateTime.TryParse(outDateString, out outDate))
+            //    {
+            //        return ResponseUtil.Error(400, "出访日期格式不正确");
+            //    }
+            //}
+            if (!string.IsNullOrEmpty(outDateString))
             {
-                return ResponseUtil.Error(400, "出访日期不能为空");
-            }
-            else
-            {
-                if(!DateTime.TryParse(outDateString, out outDate))
+                if (!DateTime.TryParse(outDateString, out outDate))
                 {
                     return ResponseUtil.Error(400, "出访日期格式不正确");
                 }
             }
+            
             // 履历ID列表
-            if(string.IsNullOrEmpty(outUsers))
+            if (string.IsNullOrEmpty(outUsers))
             {
                 return ResponseUtil.Error(400, "出访人员不能为空");
             }
@@ -401,7 +409,10 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
-                    apply.OutDate = outDate;
+                    if (!string.IsNullOrEmpty(outDateString))
+                    {
+                        apply.OutDate = outDate;
+                    }
                     apply.SignStatus = signStatus;
                     apply.OutUsers = outUsers;
                     db.SaveChanges();
