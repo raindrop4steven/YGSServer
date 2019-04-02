@@ -198,7 +198,7 @@ namespace YGSServer.Controllers
                 else
                 {
                     // 获得所有外出人员id
-                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                    var userIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
 
                     return new JsonNetResult(new
                     {
@@ -212,13 +212,18 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
+                                outUsers = db.User.Where(n => userIdList.Contains(n.ID)).Select(n => new
                                 {
                                     id = n.ID,
-                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
-                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
-                                    signNo = n.SignNo,
-                                    signTime = n.SignTime
+                                    name = n.Name,
+                                    credNo = n.CredNo,
+                                    history = db.History.Where(m => m.ApplyId == apply.ID && m.UserId == n.ID).Select(m => new {
+                                        id = m.ID,
+                                        signNo = m.SignNo,
+                                        signNation = m.SignNation,
+                                        signTime = m.SignTime,
+                                        isOut = m.IsOut
+                                    }).ToList()
                                 }).ToList(),
                                 applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
@@ -267,7 +272,7 @@ namespace YGSServer.Controllers
                 else
                 {
                     // 获得所有外出人员id
-                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                    var userIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
                     return new JsonNetResult(new
                     {
                         code = 200,
@@ -294,13 +299,18 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
+                                outUsers = db.User.Where(n => userIdList.Contains(n.ID)).Select(n => new
                                 {
                                     id = n.ID,
-                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
-                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
-                                    signNo = n.SignNo,
-                                    signTime = n.SignTime
+                                    name = n.Name,
+                                    credNo = n.CredNo,
+                                    history = db.History.Where(m => m.ApplyId == apply.ID && m.UserId == n.ID).Select(m => new {
+                                        id = m.ID,
+                                        signNo = m.SignNo,
+                                        signNation = m.SignNation,
+                                        signTime = m.SignTime,
+                                        isOut = m.IsOut
+                                    }).ToList()
                                 }).ToList(),
                                 applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
@@ -511,19 +521,21 @@ namespace YGSServer.Controllers
                     if (checkStatus == WHConstants.Check_Status_Pass)
                     {
                         // 获得所有外出人员id
-                        var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
-                        var outUserIds = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => n.UserId).ToList();
-                        var illegalUsers = db.User.Where(m => outUserIds.Contains(m.ID) && string.IsNullOrEmpty(m.CredNo)).ToList();
+                        //var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                        //var outUserIds = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => n.UserId).ToList();
+                        //var illegalUsers = db.User.Where(m => outUserIds.Contains(m.ID) && string.IsNullOrEmpty(m.CredNo)).ToList();
 
-                        if (illegalUsers.Count > 0)
-                        {
-                            return ResponseUtil.Error(400, "出国人员缺少身份证号，请先到申请详情中补全");
-                        }
-                        else
-                        {
-                            apply.ApplyStatus = WHConstants.Apply_Status_Passed;
-                            NotificationUtil.SendNotification(apply.UserId, "您的出国申请已通过", "/Apps/YGS/Home/");
-                        }
+                        //if (illegalUsers.Count > 0)
+                        //{
+                        //    return ResponseUtil.Error(400, "出国人员缺少身份证号，请先到申请详情中补全");
+                        //}
+                        //else
+                        //{
+                        //    apply.ApplyStatus = WHConstants.Apply_Status_Passed;
+                        //    NotificationUtil.SendNotification(apply.UserId, "您的出国申请已通过", "/Apps/YGS/Home/");
+                        //}
+                        apply.ApplyStatus = WHConstants.Apply_Status_Passed;
+                        NotificationUtil.SendNotification(apply.UserId, "您的出国申请已通过", "/Apps/YGS/Home/");
                     }
                     else
                     {
