@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using YGSServer.Common;
@@ -314,23 +315,15 @@ namespace YGSServer.Controllers
              */
             using (var db = new YGSDbContext())
             {
-                // 外出履历
-                var history = new YGS_History();
-                
                 // 身份证号
                 if (string.IsNullOrEmpty(credNo))
                 {
                     // 身份证号为空，说明只填写了姓名，直接建立新用户，返回新用户ID给前端
-                    var tempUser = new YGS_User();
-                    tempUser.Name = name;
-                    tempUser.CreateTime = DateTime.Now;
+                    var user = new YGS_User();
+                    user.Name = name;
+                    user.CreateTime = DateTime.Now;
 
-                    db.User.Add(tempUser);
-                    db.SaveChanges();
-
-                    // 添加履历
-                    history.UserId = tempUser.ID;
-                    db.History.Add(history);
+                    db.User.Add(user);
                     db.SaveChanges();
 
                     return new JsonNetResult(new
@@ -338,12 +331,17 @@ namespace YGSServer.Controllers
                         code = 200,
                         data = new
                         {
-                            id = history.ID
+                            id = user.ID
                         }
                     });
                 }
                 else
                 {
+                    // 校验身份证格式
+                    if ((!Regex.IsMatch(credNo, @"^(^\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$", RegexOptions.IgnoreCase)))
+                    {
+                        return ResponseUtil.Error(400, "身份证格式不正确");
+                    }
                     // 输入了身份证号，则进行校验，身份信息是否正确。
                     // 如果身份证与姓名一致，则返回用户ID，如果不正确，则该用户已存在，输入身份证重复
                     var user = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
@@ -357,42 +355,32 @@ namespace YGSServer.Controllers
                         db.User.Add(user);
                         db.SaveChanges();
 
-                        // 添加履历
-                        history.UserId = user.ID;
-                        db.History.Add(history);
-                        db.SaveChanges();
-
                         return new JsonNetResult(new
                         {
                             code = 200,
                             data = new
                             {
-                                id = history.ID
+                                id = user.ID
                             }
                         });
                     }
                     else
                     {
-                        if(user.Name == name)
+                        if (user.Name == name)
                         {
-                            // 同一个人，直接添加履历
-                            history.UserId = user.ID;
-                            db.History.Add(history);
-                            db.SaveChanges();
-
                             return new JsonNetResult(new
                             {
                                 code = 200,
                                 data = new
                                 {
-                                    id = history.ID
+                                    id = user.ID
                                 }
                             });
                         }
                         else
                         {
                             // 不同人，同身份证
-                            return ResponseUtil.Error(400, "相同身份证的用户已存在");
+                            return ResponseUtil.Error(400, "已存在身份证相同的其他用户");
                         }
                     }
                 }

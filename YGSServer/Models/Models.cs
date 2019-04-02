@@ -114,12 +114,18 @@ namespace YGSServer.Models
     {
         // Key
         public int ID { get; set; }
+        // 申请ID
+        public int ApplyId { get; set; }
         // 申请人ID
         public int UserId { get; set; }
         // 签证号
         public string SignNo { get; set; }
+        // 签证地
+        public string SignNation { get; set; }
         // 签证日期
         public DateTime? SignTime { get; set; }
+        // 是否出行
+        public bool IsOut { get; set; }
     }
     #endregion
 

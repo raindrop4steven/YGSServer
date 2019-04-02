@@ -212,6 +212,10 @@
     <Compile Include="Migrations\201903210727262_add hisotry model6.Designer.cs">
       <DependentUpon>201903210727262_add hisotry model6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904020216110_update users.cs" />
+    <Compile Include="Migrations\201904020216110_update users.Designer.cs">
+      <DependentUpon>201904020216110_update users.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -401,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903210727262_add hisotry model6.resx">
       <DependentUpon>201903210727262_add hisotry model6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020216110_update users.resx">
+      <DependentUpon>201904020216110_update users.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
