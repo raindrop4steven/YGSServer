@@ -238,5 +238,35 @@ namespace YGSServer.Controllers
             }
         }
         #endregion
+
+        #region 履历详情
+        public ActionResult Detail(int id)
+        {
+            using (var db = new YGSDbContext())
+            {
+                var history = db.History.Where(n => n.ID == id).FirstOrDefault();
+
+                if (history == null)
+                {
+                    return ResponseUtil.Error(400, "履历不存在");
+                }
+                else
+                {
+                    return new JsonNetResult(new
+                    {
+                        code = 200,
+                        data = new
+                        {
+                            id = history.ID,
+                            signNo = history.SignNo,
+                            signTime = history.SignTime,
+                            signNation = history.SignNation,
+                            isOut = history.IsOut
+                        }
+                    });
+                }
+            }
+        }
+        #endregion
     }
 }

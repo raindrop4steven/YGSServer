@@ -451,6 +451,8 @@ namespace YGSServer.Controllers
             /*
              * 变量定义
              */
+            // 申请ID
+            int aid = 0;
             // 用户ID
             int id = 0;
             // 性别
@@ -460,6 +462,8 @@ namespace YGSServer.Controllers
             /*
              * 参数获取
              */
+            // 申请ID
+            var applyId = collection["aid"];
             // 用户ID
             var userId = collection["id"];
             // 姓名
@@ -484,6 +488,14 @@ namespace YGSServer.Controllers
             /*
              * 参数校验
              */
+            // 申请ID
+            if (!string.IsNullOrEmpty(applyId))
+            {
+                if(!int.TryParse(applyId, out aid))
+                {
+                    return ResponseUtil.Error(400, "申请ID不正确");
+                }
+            }
             // 用户ID
             if (string.IsNullOrEmpty(userId))
             {
@@ -502,11 +514,7 @@ namespace YGSServer.Controllers
                 return ResponseUtil.Error(400, "姓名不能为空");
             }
             // 性别
-            if (string.IsNullOrEmpty(sexString))
-            {
-                return ResponseUtil.Error(400, "性别不能为空");
-            }
-            else
+            if (!string.IsNullOrEmpty(sexString))
             {
                 if (int.TryParse(sexString, out sex))
                 {
@@ -521,16 +529,12 @@ namespace YGSServer.Controllers
                 }
             }
             // 出生地
-            if (string.IsNullOrEmpty(location))
-            {
-                return ResponseUtil.Error(400, "出生地不能为空");
-            }
+            //if (string.IsNullOrEmpty(location))
+            //{
+            //    return ResponseUtil.Error(400, "出生地不能为空");
+            //}
             // 出生日期
-            if (string.IsNullOrEmpty(birthDay))
-            {
-                return ResponseUtil.Error(400, "出生日期不能为空");
-            }
-            else
+            if (!string.IsNullOrEmpty(birthDay))
             {
                 if (!DateTime.TryParse(birthDay, out birthday))
                 {
@@ -538,30 +542,30 @@ namespace YGSServer.Controllers
                 }
             }
             // 身份证号
-            if (string.IsNullOrEmpty(credNo))
-            {
-                return ResponseUtil.Error(400, "身份证号不能为空");
-            }
+            //if (string.IsNullOrEmpty(credNo))
+            //{
+            //    return ResponseUtil.Error(400, "身份证号不能为空");
+            //}
             // 工作单位
-            if (string.IsNullOrEmpty(unit))
-            {
-                return ResponseUtil.Error(400, "工作单位不能为空");
-            }
+            //if (string.IsNullOrEmpty(unit))
+            //{
+            //    return ResponseUtil.Error(400, "工作单位不能为空");
+            //}
             // 工作部门
-            if (string.IsNullOrEmpty(depart))
-            {
-                return ResponseUtil.Error(400, "工作部门不能为空");
-            }
+            //if (string.IsNullOrEmpty(depart))
+            //{
+            //    return ResponseUtil.Error(400, "工作部门不能为空");
+            //}
             // 级别
-            if (string.IsNullOrEmpty(level))
-            {
-                return ResponseUtil.Error(400, "级别不能为空");
-            }
+            //if (string.IsNullOrEmpty(level))
+            //{
+            //    return ResponseUtil.Error(400, "级别不能为空");
+            //}
             // 职务
-            if (string.IsNullOrEmpty(duty))
-            {
-                return ResponseUtil.Error(400, "职务不能为空");
-            }
+            //if (string.IsNullOrEmpty(duty))
+            //{
+            //    return ResponseUtil.Error(400, "职务不能为空");
+            //}
 
             /*
              * 更新用户信息
@@ -576,22 +580,126 @@ namespace YGSServer.Controllers
                 else
                 {
                     var credUser = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
-                    // TODO: 这里要做用户替换的逻辑
-                    if (credUser != null && credUser.ID != user.ID)
+                    
+                    if (credUser != null)
                     {
-                        return ResponseUtil.Error(400, "相同身份证号用户已存在");
+                        if(credUser.Name != user.Name)
+                        {
+                            return ResponseUtil.Error(400, "相同身份证号用户已存在");
+                        }
+                        else
+                        {
+                            if(credUser.ID == user.ID)
+                            {
+                                // 同一个用户
+                                user.Name = name;
+                                if (!string.IsNullOrEmpty(sexString))
+                                {
+                                    user.Sex = sex;
+                                }
+                                if (!string.IsNullOrEmpty(location))
+                                {
+                                    user.Location = location;
+                                }
+                                if (!string.IsNullOrEmpty(birthDay))
+                                {
+                                    user.BirthDay = birthday;
+                                }
+                                if (!string.IsNullOrEmpty(credNo))
+                                {
+                                    user.CredNo = credNo;
+                                }
+                                if (!string.IsNullOrEmpty(unit))
+                                {
+                                    user.Unit = unit;
+                                }
+                                if (!string.IsNullOrEmpty(depart))
+                                {
+                                    user.Depart = depart;
+                                }
+                                if (!string.IsNullOrEmpty(level))
+                                {
+                                    user.Level = level;
+                                }
+                                if (!string.IsNullOrEmpty(duty))
+                                {
+                                    user.Duty = duty;
+                                }
+                                user.UpdateTime = DateTime.Now;
+                                db.SaveChanges();
+                                return ResponseUtil.OK(200, "更新成功");
+                            }
+                            else
+                            {
+                                // 不同用户，同一个名字和身份号，则需要用原有的用户替换现有的用户
+                                // 2中情况：
+                                // 1. 从审核列表中点击进来，需要替换对应的审核中【外出人员】和对应履历表中【人员ID】
+                                // 2. 从人员管理中点击进来，表明该用户已经具有身份证信息，这种情况下说明用户冲突
+                                if(string.IsNullOrEmpty(applyId))
+                                {
+                                    return ResponseUtil.Error(400, "相同身份证号用户已存在");
+                                }
+                                else
+                                {
+                                    var apply = db.Apply.Where(n => n.ID == aid).FirstOrDefault();
+                                    if (apply == null)
+                                    {
+                                        return ResponseUtil.Error(400, "申请不存在");
+                                    }
+                                    else
+                                    {
+                                        var outUsers = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                                        int index = outUsers.FindIndex(n => n.Equals(id));
+                                        if(index != -1)
+                                        {
+                                            outUsers[index] = credUser.ID;
+                                            apply.OutUsers = string.Join(",", outUsers);
+
+                                            db.SaveChanges();
+                                        }
+                                        return ResponseUtil.OK(200, "更新成功");
+                                    }
+                                }
+                            }
+                            
+                        }
                     }
                     else
                     {
+                        // 同一个用户
                         user.Name = name;
-                        user.Sex = sex;
-                        user.Location = location;
-                        user.BirthDay = birthday;
-                        user.CredNo = credNo;
-                        user.Unit = unit;
-                        user.Depart = depart;
-                        user.Level = level;
-                        user.Duty = duty;
+                        if (!string.IsNullOrEmpty(sexString))
+                        {
+                            user.Sex = sex;
+                        }
+                        if (!string.IsNullOrEmpty(location))
+                        {
+                            user.Location = location;
+                        }
+                        if (!string.IsNullOrEmpty(birthDay))
+                        {
+                            user.BirthDay = birthday;
+                        }
+                        if (!string.IsNullOrEmpty(credNo))
+                        {
+                            user.CredNo = credNo;
+                        }
+                        if (!string.IsNullOrEmpty(unit))
+                        {
+                            user.Unit = unit;
+                        }
+                        if (!string.IsNullOrEmpty(depart))
+                        {
+                            user.Depart = depart;
+                        }
+                        if (!string.IsNullOrEmpty(level))
+                        {
+                            user.Level = level;
+                        }
+                        if (!string.IsNullOrEmpty(duty))
+                        {
+                            user.Duty = duty;
+                        }
                         user.UpdateTime = DateTime.Now;
                         db.SaveChanges();
                         return ResponseUtil.OK(200, "更新成功");
