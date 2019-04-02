@@ -167,8 +167,8 @@ namespace YGSServer.Controllers
                 else
                 {
                     // 获得所有外出人员id
-                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
-                    
+                    var userIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+
                     return new JsonNetResult(new
                     {
                         code = 200,
@@ -181,13 +181,18 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
+                                outUsers = db.User.Where(n => userIdList.Contains(n.ID)).Select(n => new
                                 {
                                     id = n.ID,
-                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
-                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
-                                    signNo = n.SignNo,
-                                    signTime = n.SignTime
+                                    name = n.Name,
+                                    credNo = n.CredNo,
+                                    history = db.History.Where(m => m.ApplyId == apply.ID && m.UserId == n.ID).Select(m => new {
+                                        id = m.ID,
+                                        signNo = m.SignNo,
+                                        signNation = m.SignNation,
+                                        signTime = m.SignTime,
+                                        isOut = m.IsOut
+                                    }).ToList()
                                 }).ToList(),
                                 applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
@@ -234,7 +239,7 @@ namespace YGSServer.Controllers
                 else
                 {
                     // 获得所有外出人员id
-                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                    var userIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
                     return new JsonNetResult(new
                     {
                         code = 200,
@@ -261,13 +266,18 @@ namespace YGSServer.Controllers
                                 desc = apply.Desc,
                                 credType = apply.CredType,
                                 applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
-                                outUsers = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => new
+                                outUsers = db.User.Where(n => userIdList.Contains(n.ID)).Select(n => new
                                 {
                                     id = n.ID,
-                                    name = db.User.Where(m => m.ID == n.UserId).Select(m => m.Name).FirstOrDefault(),
-                                    credNo = db.User.Where(m => m.ID == n.UserId).Select(m => m.CredNo).FirstOrDefault(),
-                                    signNo = n.SignNo,
-                                    signTime = n.SignTime
+                                    name = n.Name,
+                                    credNo = n.CredNo,
+                                    history = db.History.Where(m => m.ApplyId == apply.ID && m.UserId == n.ID).Select(m => new {
+                                        id = m.ID,
+                                        signNo = m.SignNo,
+                                        signNation = m.SignNation,
+                                        signTime = m.SignTime,
+                                        isOut = m.IsOut
+                                    }).ToList()
                                 }).ToList(),
                                 applyAtt = db.Attachment.ToList().Where(m => apply.ApplyAtt.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
                                 {
@@ -391,15 +401,14 @@ namespace YGSServer.Controllers
                     if(apply.ApplyStatus == WHConstants.Apply_Status_Rejected)
                     {
                         apply.ApplyStatus = WHConstants.Apply_Status_Examing;
+
+                        var notifyUserIdList = NotificationUtil.GetNotificationUsers();
+                        foreach (var user in notifyUserIdList)
+                        {
+                            NotificationUtil.SendNotification(user, "您有新的出国申请审核", "/Apps/YGS/Home/Check");
+                        }
                     }
                     db.SaveChanges();
-
-                    var notifyUserIdList = NotificationUtil.GetNotificationUsers();
-
-                    foreach (var user in notifyUserIdList)
-                    {
-                        NotificationUtil.SendNotification(user, "您有新的出国申请审核", "/Apps/YGS/Home/Check");
-                    }
 
                     return ResponseUtil.OK(200, "申请更新成功");
                 }
