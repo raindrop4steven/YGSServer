@@ -51,7 +51,6 @@ namespace YGSServer.Controllers
             }
             else
             {
-                var historyIdList = db.History.Where(n => n.UserId == id).Select(n => n.ID).ToList();
                 // 证件列表
                 var credList = db.Cred.Where(n => n.UserID == id).ToList().Select(n => new
                 {
@@ -65,25 +64,26 @@ namespace YGSServer.Controllers
                     validStatus = n.ValidStatus
                 });
                 // 出国记录
-                var outRecords = db.Apply.ToList().Where(n => n.OutUsers.Split(',').Select(int.Parse).ToList().Intersect(historyIdList).Count() > 0 && n.ApplyStatus == WHConstants.Apply_Status_Passed).ToList().Select(n => new
+                var outRecords = db.Apply.ToList().Where(n => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(id) && n.ApplyStatus == WHConstants.Apply_Status_Passed).ToList().Select(n => new
                 {
                     id = n.ID,
                     outName = n.OutName,
                     credType = n.CredType,
                     signStatus = n.SignStatus,
                     outDate = n.OutDate == null ? "" : n.OutDate.Value.ToString("yyyy/MM/dd"),
-                    //outUsers = db.User.ToList().Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
-                    //    id = m.ID,
-                    //    name = m.Name
-                    //}),
-                    outUsers = db.History.ToList().Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new
+                    outUsers = db.History.Where(m => m.ApplyId == n.ID).Select(m => new
                     {
                         id = m.ID,
                         name = db.User.Where(u => u.ID == m.UserId).Select(u => u.Name).FirstOrDefault()
                     }).ToList(),
-                    signNo = db.History.ToList().Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => m.SignNo).FirstOrDefault(),
-                    signTime = db.History.ToList().Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => m.SignTime).FirstOrDefault() == null ? null : db.History.ToList().Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => m.SignTime).FirstOrDefault().Value.ToString("yyyy/MM/dd"),
-                    desc = n.Desc
+                    desc = n.Desc,
+                    history = db.History.Where(m => m.ApplyId == n.ID).Select(m => new {
+                        id = m.ID,
+                        signNo = m.SignNo,
+                        signTime = m.SignTime == null ? null : m.SignTime.Value.ToString("yyyy/MM/dd"),
+                        signNation = m.SignNation,
+                        isOut = m.IsOut
+                    }).ToList(),
                 });
 
                 return new JsonNetResult(new

@@ -194,11 +194,7 @@ namespace YGSServer.Controllers
                 return ResponseUtil.Error(400, "姓名不能为空");
             }
             // 性别
-            if(string.IsNullOrEmpty(sexString))
-            {
-                return ResponseUtil.Error(400, "性别不能为空");
-            }
-            else
+            if(!string.IsNullOrEmpty(sexString))
             {
                 if (int.TryParse(sexString, out sex))
                 {
@@ -213,47 +209,43 @@ namespace YGSServer.Controllers
                 }
             }
             // 出生地
-            if (string.IsNullOrEmpty(location))
-            {
-                return ResponseUtil.Error(400, "出生地不能为空");
-            }
+            //if (string.IsNullOrEmpty(location))
+            //{
+            //    return ResponseUtil.Error(400, "出生地不能为空");
+            //}
             // 出生日期
-            if (string.IsNullOrEmpty(birthDay))
+            if (!string.IsNullOrEmpty(birthDay))
             {
-                return ResponseUtil.Error(400, "出生日期不能为空");
-            }
-            else
-            {
-                if(!DateTime.TryParse(birthDay, out birthday))
+                if (!DateTime.TryParse(birthDay, out birthday))
                 {
                     return ResponseUtil.Error(400, "出生日期无效");
                 }
             }
             // 身份证号
-            if (string.IsNullOrEmpty(credNo))
-            {
-                return ResponseUtil.Error(400, "身份证号不能为空");
-            }
+            //if (string.IsNullOrEmpty(credNo))
+            //{
+            //    return ResponseUtil.Error(400, "身份证号不能为空");
+            //}
             // 工作单位
-            if (string.IsNullOrEmpty(unit))
-            {
-                return ResponseUtil.Error(400, "工作单位不能为空");
-            }
+            //if (string.IsNullOrEmpty(unit))
+            //{
+            //    return ResponseUtil.Error(400, "工作单位不能为空");
+            //}
             // 工作部门
-            if (string.IsNullOrEmpty(depart))
-            {
-                return ResponseUtil.Error(400, "工作部门不能为空");
-            }
+            //if (string.IsNullOrEmpty(depart))
+            //{
+            //    return ResponseUtil.Error(400, "工作部门不能为空");
+            //}
             // 级别
-            if (string.IsNullOrEmpty(level))
-            {
-                return ResponseUtil.Error(400, "级别不能为空");
-            }
+            //if (string.IsNullOrEmpty(level))
+            //{
+            //    return ResponseUtil.Error(400, "级别不能为空");
+            //}
             // 职务
-            if (string.IsNullOrEmpty(duty))
-            {
-                return ResponseUtil.Error(400, "职务不能为空");
-            }
+            //if (string.IsNullOrEmpty(duty))
+            //{
+            //    return ResponseUtil.Error(400, "职务不能为空");
+            //}
 
             /*
              * 添加用户
@@ -265,14 +257,38 @@ namespace YGSServer.Controllers
                 {
                     user = new YGS_User();
                     user.Name = name;
-                    user.Sex = sex;
-                    user.Location = location;
-                    user.BirthDay = birthday;
-                    user.CredNo = credNo;
-                    user.Unit = unit;
-                    user.Depart = depart;
-                    user.Level = level;
-                    user.Duty = duty;
+                    if (!string.IsNullOrEmpty(sexString))
+                    {
+                        user.Sex = sex;
+                    }
+                    if (!string.IsNullOrEmpty(location))
+                    {
+                        user.Location = location;
+                    }
+                    if (!string.IsNullOrEmpty(birthDay))
+                    {
+                        user.BirthDay = birthday;
+                    }
+                    if (!string.IsNullOrEmpty(credNo))
+                    {
+                        user.CredNo = credNo;
+                    }
+                    if (!string.IsNullOrEmpty(unit))
+                    {
+                        user.Unit = unit;
+                    }
+                    if (!string.IsNullOrEmpty(depart))
+                    {
+                        user.Depart = depart;
+                    }
+                    if (!string.IsNullOrEmpty(level))
+                    {
+                        user.Level = level;
+                    }
+                    if (!string.IsNullOrEmpty(duty))
+                    {
+                        user.Duty = duty;
+                    }
                     user.CreateTime = DateTime.Now;
                     user.UpdateTime = DateTime.Now;
                     db.User.Add(user);
@@ -560,6 +576,7 @@ namespace YGSServer.Controllers
                 else
                 {
                     var credUser = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
+                    // TODO: 这里要做用户替换的逻辑
                     if (credUser != null && credUser.ID != user.ID)
                     {
                         return ResponseUtil.Error(400, "相同身份证号用户已存在");
