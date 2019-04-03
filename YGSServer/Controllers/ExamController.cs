@@ -143,8 +143,7 @@ namespace YGSServer.Controllers
             {
                 var applyEmployee = orgMgr.GetEmployee(apply.UserId);
                 // 获得所有外出人员id
-                var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
-                var outUserIds = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => n.UserId).ToList();
+                var outUserIds = apply.OutUsers.Split(',').Select(int.Parse).ToList();
                 applys.Add(new
                 {
                     id = apply.ID,

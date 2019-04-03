@@ -31,9 +31,9 @@ namespace YGSServer.Controllers
              * 参数获取
              */
             // 申请ID
-            var aidString = collection["id"];
+            var aidString = collection["aid"];
             // 用户ID
-            var uidString = collection["id"];
+            var uidString = collection["uid"];
             // 签证号
             var signNo = collection["signNo"];
             // 签证地
@@ -114,7 +114,14 @@ namespace YGSServer.Controllers
                 db.History.Add(history);
                 db.SaveChanges();
 
-                return ResponseUtil.OK(200, "履历创建成功");
+                return new JsonNetResult(new
+                {
+                    code = 200,
+                    data = new
+                    {
+                        id = history.ID
+                    }
+                });
             }
         }
         #endregion

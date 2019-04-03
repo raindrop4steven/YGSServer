@@ -77,7 +77,7 @@ namespace YGSServer.Controllers
                         name = db.User.Where(u => u.ID == m.UserId).Select(u => u.Name).FirstOrDefault()
                     }).ToList(),
                     desc = n.Desc,
-                    history = db.History.Where(m => m.ApplyId == n.ID).Select(m => new {
+                    history = db.History.Where(m => m.ApplyId == n.ID).ToList().Select(m => new {
                         id = m.ID,
                         signNo = m.SignNo,
                         signTime = m.SignTime == null ? null : m.SignTime.Value.ToString("yyyy/MM/dd"),
