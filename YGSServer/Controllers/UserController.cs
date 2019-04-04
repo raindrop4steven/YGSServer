@@ -631,7 +631,14 @@ namespace YGSServer.Controllers
                                 }
                                 user.UpdateTime = DateTime.Now;
                                 db.SaveChanges();
-                                return ResponseUtil.OK(200, "更新成功");
+                                return new JsonNetResult(new
+                                {
+                                    code = 200,
+                                    data = new
+                                    {
+                                        id = user.ID
+                                    }
+                                });
                             }
                             else
                             {
@@ -645,27 +652,16 @@ namespace YGSServer.Controllers
                                 }
                                 else
                                 {
-                                    var apply = db.Apply.Where(n => n.ID == aid).FirstOrDefault();
-                                    if (apply == null)
+                                    return new JsonNetResult(new
                                     {
-                                        return ResponseUtil.Error(400, "申请不存在");
-                                    }
-                                    else
-                                    {
-                                        var outUsers = apply.OutUsers.Split(',').Select(int.Parse).ToList();
-                                        int index = outUsers.FindIndex(n => n.Equals(id));
-                                        if(index != -1)
+                                        code = 200,
+                                        data = new
                                         {
-                                            outUsers[index] = credUser.ID;
-                                            apply.OutUsers = string.Join(",", outUsers);
-
-                                            db.SaveChanges();
+                                            id = credUser.ID
                                         }
-                                        return ResponseUtil.OK(200, "更新成功");
-                                    }
+                                    });
                                 }
                             }
-                            
                         }
                     }
                     else
@@ -706,7 +702,14 @@ namespace YGSServer.Controllers
                         }
                         user.UpdateTime = DateTime.Now;
                         db.SaveChanges();
-                        return ResponseUtil.OK(200, "更新成功");
+                        return new JsonNetResult(new
+                        {
+                            code = 200,
+                            data = new
+                            {
+                                id = user.ID
+                            }
+                        });
                     }
                 }
             }

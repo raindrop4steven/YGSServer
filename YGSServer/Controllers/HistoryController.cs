@@ -97,31 +97,39 @@ namespace YGSServer.Controllers
              */
             using (var db = new YGSDbContext())
             {
-                var history = new YGS_History();
-                history.ApplyId = aid;                      // 申请ID
-                history.UserId = uid;                       // 用户ID
-                history.SignNo = signNo;                    // 签证号
-                if (!string.IsNullOrEmpty(signTimeString))  // 签证时间
+                var history = db.History.Where(n => n.SignNo == signNo).FirstOrDefault();
+                if(history != null)
                 {
-                    history.SignTime = signTime;
+                    return ResponseUtil.Error(400, "签证号不能重复");
                 }
-                if (!string.IsNullOrEmpty(signNation))      // 签证地
+                else
                 {
-                    history.SignNation = signNation;
-                }
-                history.IsOut = isOut;                      // 是否出行
-
-                db.History.Add(history);
-                db.SaveChanges();
-
-                return new JsonNetResult(new
-                {
-                    code = 200,
-                    data = new
+                    history = new YGS_History();
+                    history.ApplyId = aid;                      // 申请ID
+                    history.UserId = uid;                       // 用户ID
+                    history.SignNo = signNo;                    // 签证号
+                    if (!string.IsNullOrEmpty(signTimeString))  // 签证时间
                     {
-                        id = history.ID
+                        history.SignTime = signTime;
                     }
-                });
+                    if (!string.IsNullOrEmpty(signNation))      // 签证地
+                    {
+                        history.SignNation = signNation;
+                    }
+                    history.IsOut = isOut;                      // 是否出行
+
+                    db.History.Add(history);
+                    db.SaveChanges();
+
+                    return new JsonNetResult(new
+                    {
+                        code = 200,
+                        data = new
+                        {
+                            id = history.ID
+                        }
+                    });
+                }
             }
         }
         #endregion
