@@ -254,26 +254,20 @@
     <Content Include="Content\files\image\true\因公出国（境）团组承诺书.png" />
     <Content Include="Content\files\image\true\无锡市因公出国（境）经费审核表.png" />
     <Content Include="Content\images\appicon.png" />
-    <Content Include="Content\static\css\applyForm.9b2059ba.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\css\CertificatesDetail.264e2fdb.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\static\css\applyForm.5ec816da.css" />
+    <Content Include="Content\static\css\CertificatesDetail.80e4eb88.css" />
     <Content Include="Content\static\css\Check.a6969eb1.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\static\css\Cred.c1f53b25.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\static\css\Cred.d5f52625.css" />
     <Content Include="Content\static\css\index.679beb80.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\static\js\applyForm.cfbb51ed.js" />
-    <Content Include="Content\static\js\CertificatesDetail.3aaa8a13.js" />
-    <Content Include="Content\static\js\Check.547d3873.js" />
-    <Content Include="Content\static\js\Cred.f79d9802.js" />
-    <Content Include="Content\static\js\index.136eba94.js" />
+    <Content Include="Content\static\js\applyForm.67c46bd9.js" />
+    <Content Include="Content\static\js\CertificatesDetail.8007039a.js" />
+    <Content Include="Content\static\js\Check.b90f8b7d.js" />
+    <Content Include="Content\static\js\Cred.2f66305b.js" />
+    <Content Include="Content\static\js\index.c839d30f.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

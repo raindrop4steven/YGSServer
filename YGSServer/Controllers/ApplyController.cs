@@ -112,7 +112,6 @@ namespace YGSServer.Controllers
                     var applyEmployee = orgMgr.GetEmployee(apply.UserId);
                     // 获得所有外出人员id
                     var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
-                    var outUserIds = db.History.Where(n => historyIdList.Contains(n.ID)).Select(n => n.UserId).ToList();
 
                     applys.Add(new
                     {
@@ -121,7 +120,7 @@ namespace YGSServer.Controllers
                         desc = apply.Desc,
                         applyDate = apply.ApplyDate.ToString("yyyy/MM/dd"),
                         applyUser = applyEmployee == null ? null : string.Format("{0} {1}", applyEmployee.DeptName, applyEmployee.EmplName),
-                        outUsers = db.User.ToList().Where(m => outUserIds.Contains(m.ID)).Select(m => new
+                        outUsers = db.User.ToList().Where(m => historyIdList.Contains(m.ID)).Select(m => new
                         {
                             id = m.ID,
                             name = m.Name
