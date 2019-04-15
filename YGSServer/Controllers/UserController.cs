@@ -29,6 +29,8 @@ namespace YGSServer.Controllers
                 // 用户列表
                 var userList = db.User.Where(n => !string.IsNullOrEmpty(n.CredNo));
 
+                //var userList = db.User.Where(n => true);
+
                 /*
                  * 参数获取
                  */
@@ -252,7 +254,7 @@ namespace YGSServer.Controllers
              */
             using (var db = new YGSDbContext())
             {
-                var user = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
+                var user = db.User.Where(n => n.CredNo == credNo && !string.IsNullOrEmpty(credNo)).FirstOrDefault();
                 if(user == null)
                 {
                     user = new YGS_User();
@@ -583,7 +585,7 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
-                    var credUser = db.User.Where(n => n.CredNo == credNo).FirstOrDefault();
+                    var credUser = db.User.Where(n => n.CredNo == credNo && !string.IsNullOrEmpty(credNo)).FirstOrDefault();
                     
                     if (credUser != null)
                     {
@@ -597,38 +599,21 @@ namespace YGSServer.Controllers
                             {
                                 // 同一个用户
                                 user.Name = name;
-                                if (!string.IsNullOrEmpty(sexString))
+                                user.Sex = sex;
+                                user.Location = location;
+                                if (string.IsNullOrEmpty(birthDay))
                                 {
-                                    user.Sex = sex;
+                                    user.BirthDay = null;
                                 }
-                                if (!string.IsNullOrEmpty(location))
-                                {
-                                    user.Location = location;
-                                }
-                                if (!string.IsNullOrEmpty(birthDay))
+                                else
                                 {
                                     user.BirthDay = birthday;
                                 }
-                                if (!string.IsNullOrEmpty(credNo))
-                                {
-                                    user.CredNo = credNo;
-                                }
-                                if (!string.IsNullOrEmpty(unit))
-                                {
-                                    user.Unit = unit;
-                                }
-                                if (!string.IsNullOrEmpty(depart))
-                                {
-                                    user.Depart = depart;
-                                }
-                                if (!string.IsNullOrEmpty(level))
-                                {
-                                    user.Level = level;
-                                }
-                                if (!string.IsNullOrEmpty(duty))
-                                {
-                                    user.Duty = duty;
-                                }
+                                user.CredNo = credNo;
+                                user.Unit = unit;
+                                user.Depart = depart;
+                                user.Level = level;
+                                user.Duty = duty;
                                 user.UpdateTime = DateTime.Now;
                                 db.SaveChanges();
                                 return new JsonNetResult(new
@@ -668,38 +653,21 @@ namespace YGSServer.Controllers
                     {
                         // 同一个用户
                         user.Name = name;
-                        if (!string.IsNullOrEmpty(sexString))
+                        user.Sex = sex;
+                        user.Location = location;
+                        if (string.IsNullOrEmpty(birthDay))
                         {
-                            user.Sex = sex;
+                            user.BirthDay = null;
                         }
-                        if (!string.IsNullOrEmpty(location))
-                        {
-                            user.Location = location;
-                        }
-                        if (!string.IsNullOrEmpty(birthDay))
+                        else
                         {
                             user.BirthDay = birthday;
                         }
-                        if (!string.IsNullOrEmpty(credNo))
-                        {
-                            user.CredNo = credNo;
-                        }
-                        if (!string.IsNullOrEmpty(unit))
-                        {
-                            user.Unit = unit;
-                        }
-                        if (!string.IsNullOrEmpty(depart))
-                        {
-                            user.Depart = depart;
-                        }
-                        if (!string.IsNullOrEmpty(level))
-                        {
-                            user.Level = level;
-                        }
-                        if (!string.IsNullOrEmpty(duty))
-                        {
-                            user.Duty = duty;
-                        }
+                        user.CredNo = credNo;
+                        user.Unit = unit;
+                        user.Depart = depart;
+                        user.Level = level;
+                        user.Duty = duty;
                         user.UpdateTime = DateTime.Now;
                         db.SaveChanges();
                         return new JsonNetResult(new

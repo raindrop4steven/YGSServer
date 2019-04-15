@@ -168,6 +168,7 @@
     <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -216,6 +217,10 @@
     <Compile Include="Migrations\201904020216110_update users.Designer.cs">
       <DependentUpon>201904020216110_update users.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904110301485_add delete flag to apply.cs" />
+    <Compile Include="Migrations\201904110301485_add delete flag to apply.Designer.cs">
+      <DependentUpon>201904110301485_add delete flag to apply.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -254,6 +259,7 @@
     <Content Include="Content\files\image\true\因公出国（境）团组承诺书.png" />
     <Content Include="Content\files\image\true\无锡市因公出国（境）经费审核表.png" />
     <Content Include="Content\images\appicon.png" />
+    <Content Include="Content\static\css\AddForm.2f01bdfb.css" />
     <Content Include="Content\static\css\applyForm.5ec816da.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -269,19 +275,12 @@
     <Content Include="Content\static\css\index.679beb80.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\static\js\applyForm.0da70b64.js" />
-    <Content Include="Content\static\js\CertificatesDetail.8007039a.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\Check.b90f8b7d.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\Cred.2f66305b.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\static\js\index.c839d30f.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\static\js\AddForm.a8855c37.js" />
+    <Content Include="Content\static\js\applyForm.b754e084.js" />
+    <Content Include="Content\static\js\CertificatesDetail.dd59b2a7.js" />
+    <Content Include="Content\static\js\Check.3b31b87e.js" />
+    <Content Include="Content\static\js\Cred.fde7eb50.js" />
+    <Content Include="Content\static\js\index.d54402f9.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -360,6 +359,7 @@
     <Content Include="Views\Home\index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Home\AddForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -368,6 +368,7 @@
     <Folder Include="Views\Cred\" />
     <Folder Include="Views\Exam\" />
     <Folder Include="Views\History\" />
+    <Folder Include="Views\Record\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +417,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904020216110_update users.resx">
       <DependentUpon>201904020216110_update users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904110301485_add delete flag to apply.resx">
+      <DependentUpon>201904110301485_add delete flag to apply.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

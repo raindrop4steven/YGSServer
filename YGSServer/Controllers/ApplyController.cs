@@ -29,7 +29,7 @@ namespace YGSServer.Controllers
                 // 分页大小
                 int pageSize = WHConstants.Default_Page_Size;
                 // 申请数据
-                var applyList = db.Apply.Where(n => n.UserId == employee.EmplID);
+                var applyList = db.Apply.Where(n => n.UserId == employee.EmplID && n.IsDelete == false);
 
                 /*
                  * 参数获取
@@ -461,10 +461,11 @@ namespace YGSServer.Controllers
                 {
                     // 查询所有对应的履历
                     // 获得所有外出人员id
-                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
-                    var historyList = db.History.Where(n => historyIdList.Contains(n.ID)).ToList();
-                    db.History.RemoveRange(historyList);
-                    db.Apply.Remove(apply);
+                    //var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                    //var historyList = db.History.Where(n => historyIdList.Contains(n.ID)).ToList();
+                    //db.History.RemoveRange(historyList);
+                    //db.Apply.Remove(apply);
+                    apply.IsDelete = true;
                     db.SaveChanges();
                     return ResponseUtil.OK(200, "删除成功");
                 }
@@ -568,6 +569,7 @@ namespace YGSServer.Controllers
                 apply.NextStep = "下载并填写表格";
                 apply.CreateTime = DateTime.Now;
                 apply.UpdateTime = DateTime.Now;
+                apply.IsDelete = false;
                 db.Apply.Add(apply);
                 db.SaveChanges();
 

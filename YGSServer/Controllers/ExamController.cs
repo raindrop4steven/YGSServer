@@ -31,7 +31,7 @@ namespace YGSServer.Controllers
             // 分页大小
             int pageSize = WHConstants.Default_Page_Size;
             // 申请列表
-            var applyList = db.Apply.Where(n => n.ID > 0);
+            var applyList = db.Apply.Where(n => n.IsDelete == false);
 
             /*
              * 参数获取
@@ -418,9 +418,28 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
+                    // 原有的outUsers
+                    var oldOutUsers = apply.OutUsers.Split(',').ToList().Select(int.Parse).ToList();
+                    // 最新的outUsers
+                    var currentOutUsers = outUsers.Split(',').ToList().Select(int.Parse).ToList();
+                    // 获得筛选掉的用户，并移除
+                    foreach(int outUid in oldOutUsers)
+                    {
+                        if (!currentOutUsers.Contains(outUid))
+                        {
+                            var deleteUser = db.User.Where(n => n.ID == outUid).FirstOrDefault();
+                            if(deleteUser != null)
+                            {
+                                db.User.Remove(deleteUser);
+                            }
+                        }
+                    }
                     if (!string.IsNullOrEmpty(outDateString))
                     {
                         apply.OutDate = outDate;
+                    } else
+                    {
+                        apply.OutDate = null;
                     }
                     apply.SignStatus = signStatus;
                     apply.OutUsers = outUsers;
@@ -446,10 +465,11 @@ namespace YGSServer.Controllers
                 {
                     // 查询所有对应的履历
                     // 获得所有外出人员id
-                    var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
-                    var historyList = db.History.Where(n => historyIdList.Contains(n.ID)).ToList();
-                    db.History.RemoveRange(historyList);
-                    db.Apply.Remove(apply);
+                    //var historyIdList = apply.OutUsers.Split(',').Select(int.Parse).ToList();
+                    //var historyList = db.History.Where(n => historyIdList.Contains(n.ID)).ToList();
+                    //db.History.RemoveRange(historyList);
+                    //db.Apply.Remove(apply);
+                    apply.IsDelete = true;
                     db.SaveChanges();
 
                     return ResponseUtil.OK(200, "删除成功");

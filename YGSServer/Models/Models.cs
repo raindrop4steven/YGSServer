@@ -106,6 +106,8 @@ namespace YGSServer.Models
         public DateTime? CreateTime { get; set; }
         // 更新日期
         public DateTime? UpdateTime { get; set; }
+        // 是否删除
+        public bool IsDelete { get; set; }
     }
     #endregion
 

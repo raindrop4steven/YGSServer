@@ -81,5 +81,10 @@ namespace YGSServer.Controllers
         {
             return View("CertificatesDetail");
         }
+
+        public ActionResult AddForm()
+        {
+            return View("AddForm");
+        }
     }
 }

@@ -71,11 +71,15 @@ namespace YGSServer.Controllers
                     credType = n.CredType,
                     signStatus = n.SignStatus,
                     outDate = n.OutDate == null ? "" : n.OutDate.Value.ToString("yyyy/MM/dd"),
-                    outUsers = db.History.Where(m => m.ApplyId == n.ID).GroupBy(m => m.UserId).Select(m => m.FirstOrDefault()).ToList().Select(m => new
-                    {
+                    //outUsers = db.History.Where(m => m.ApplyId == n.ID).GroupBy(m => m.UserId).Select(m => m.FirstOrDefault()).ToList().Select(m => new
+                    //{
+                    //    id = m.ID,
+                    //    name = db.User.Where(u => u.ID == m.UserId).Select(u => u.Name).FirstOrDefault()
+                    //}).ToList(),
+                    outUsers = db.User.ToList().Where(m => n.OutUsers.Split(',').Select(int.Parse).ToList().Contains(m.ID)).Select(m => new {
                         id = m.ID,
-                        name = db.User.Where(u => u.ID == m.UserId).Select(u => u.Name).FirstOrDefault()
-                    }).ToList(),
+                        name = m.Name
+                    }),
                     desc = n.Desc,
                     history = db.History.Where(m => m.ApplyId == n.ID && m.UserId == id).ToList().Select(m => new {
                         id = m.ID,
@@ -280,30 +284,38 @@ namespace YGSServer.Controllers
              */
             using (var db = new YGSDbContext())
             {
-                var user = db.User.Where(n => n.ID == uid).FirstOrDefault();
-                if (user == null)
+                var existsCred = db.Cred.Where(n => n.TradeCode == tradeCode).FirstOrDefault();
+                if (existsCred != null)
                 {
-                    return ResponseUtil.Error(400, "用户不存在");
+                    return ResponseUtil.Error(400, "相同证件号已存在");
                 }
                 else
                 {
-                    var cred = new YGS_Cred();
-                    cred.UserID = uid;
-                    cred.Name = user.Name;
-                    cred.Sex = user.Sex;
-                    cred.TradeCode = tradeCode;
-                    cred.CredType = credType;
-                    cred.CredUnit = credUnit;
-                    cred.CredDate = credDate;
-                    cred.ValidDate = validDate;
-                    cred.ValidStatus = validStatus;
-                    cred.CreateTime = DateTime.Now;
-                    cred.UpdateTime = DateTime.Now;
+                    var user = db.User.Where(n => n.ID == uid).FirstOrDefault();
+                    if (user == null)
+                    {
+                        return ResponseUtil.Error(400, "用户不存在");
+                    }
+                    else
+                    {
+                        var cred = new YGS_Cred();
+                        cred.UserID = uid;
+                        cred.Name = user.Name;
+                        cred.Sex = user.Sex;
+                        cred.TradeCode = tradeCode;
+                        cred.CredType = credType;
+                        cred.CredUnit = credUnit;
+                        cred.CredDate = credDate;
+                        cred.ValidDate = validDate;
+                        cred.ValidStatus = validStatus;
+                        cred.CreateTime = DateTime.Now;
+                        cred.UpdateTime = DateTime.Now;
 
-                    db.Cred.Add(cred);
-                    db.SaveChanges();
+                        db.Cred.Add(cred);
+                        db.SaveChanges();
 
-                    return ResponseUtil.OK(200, "添加成功");
+                        return ResponseUtil.OK(200, "添加成功");
+                    }
                 }
             }
         }
@@ -489,14 +501,22 @@ namespace YGSServer.Controllers
                 }
                 else
                 {
-                    cred.TradeCode = tradeCode;
-                    cred.CredType = credType;
-                    cred.CredUnit = credUnit;
-                    cred.CredDate = credDate;
-                    cred.ValidDate = validDate;
-                    cred.ValidStatus = validStatus;
-                    db.SaveChanges();
-                    return ResponseUtil.OK(200, "更新成功");
+                    var existsCred = db.Cred.Where(n => n.TradeCode == tradeCode).FirstOrDefault();
+                    if (existsCred != null && existsCred.ID != cred.ID)
+                    {
+                        return ResponseUtil.Error(400, "相同证件号已存在");
+                    }
+                    else
+                    {
+                        cred.TradeCode = tradeCode;
+                        cred.CredType = credType;
+                        cred.CredUnit = credUnit;
+                        cred.CredDate = credDate;
+                        cred.ValidDate = validDate;
+                        cred.ValidStatus = validStatus;
+                        db.SaveChanges();
+                        return ResponseUtil.OK(200, "更新成功");
+                    }
                 }
             }
         }
