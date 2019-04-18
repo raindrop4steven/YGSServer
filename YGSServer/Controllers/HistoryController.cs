@@ -47,11 +47,7 @@ namespace YGSServer.Controllers
              * 参数校验
              */
             // 申请ID
-            if(string.IsNullOrEmpty(aidString))
-            {
-                return ResponseUtil.Error(400, "申请ID不能为空");
-            }
-            else
+            if(!string.IsNullOrEmpty(aidString))
             {
                 if (!int.TryParse(aidString, out aid))
                 {
@@ -71,9 +67,9 @@ namespace YGSServer.Controllers
                 }
             }
             // 签证号
-            if(string.IsNullOrEmpty(signNo))
+            if(string.IsNullOrEmpty(signNo) && string.IsNullOrEmpty(signTimeString) && string.IsNullOrEmpty(isOutString) && string.IsNullOrEmpty(signNation))
             {
-                return ResponseUtil.Error(400, "签证号不能为空");
+                return ResponseUtil.Error(400, "至少填写一项");
             }
             // 签证时间
             if (!string.IsNullOrEmpty(signTimeString))
@@ -97,17 +93,11 @@ namespace YGSServer.Controllers
              */
             using (var db = new YGSDbContext())
             {
-                //var history = db.History.Where(n => n.SignNo == signNo).FirstOrDefault();
-                //if(history != null)
-                //{
-                //    return ResponseUtil.Error(400, "签证号不能重复");
-                //}
-                //else
-                //{
-                    
-                //}
                 var history = new YGS_History();
-                history.ApplyId = aid;                      // 申请ID
+                if (!string.IsNullOrEmpty(aidString))
+                {
+                    history.ApplyId = aid;                      // 申请ID
+                }
                 history.UserId = uid;                       // 用户ID
                 history.SignNo = signNo;                    // 签证号
                 if (!string.IsNullOrEmpty(signTimeString))  // 签证时间
@@ -118,8 +108,11 @@ namespace YGSServer.Controllers
                 {
                     history.SignNation = signNation;
                 }
-                history.IsOut = isOut;                      // 是否出行
-
+                if (!string.IsNullOrEmpty(isOutString))
+                {
+                    history.IsOut = isOut;                      // 是否出行
+                }
+                
                 db.History.Add(history);
                 db.SaveChanges();
 
@@ -242,11 +235,26 @@ namespace YGSServer.Controllers
                     {
                         history.SignTime = signTime;
                     }
+                    else
+                    {
+                        history.SignTime = null;
+                    }
                     if (!string.IsNullOrEmpty(signNation))      // 签证地
                     {
                         history.SignNation = signNation;
                     }
-                    history.IsOut = isOut;                      // 是否出行
+                    else
+                    {
+                        history.SignNation = null;
+                    }
+                    if (!string.IsNullOrEmpty(isOutString))
+                    {
+                        history.IsOut = isOut;                      // 是否出行
+                    }
+                    else
+                    {
+                        history.IsOut = null;
+                    }
                     db.SaveChanges();
 
                     return ResponseUtil.OK(200, "履历更新成功");

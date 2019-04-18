@@ -419,21 +419,21 @@ namespace YGSServer.Controllers
                 else
                 {
                     // 原有的outUsers
-                    var oldOutUsers = apply.OutUsers.Split(',').ToList().Select(int.Parse).ToList();
+                    //var oldOutUsers = apply.OutUsers.Split(',').ToList().Select(int.Parse).ToList();
                     // 最新的outUsers
-                    var currentOutUsers = outUsers.Split(',').ToList().Select(int.Parse).ToList();
+                    //var currentOutUsers = outUsers.Split(',').ToList().Select(int.Parse).ToList();
                     // 获得筛选掉的用户，并移除
-                    foreach(int outUid in oldOutUsers)
-                    {
-                        if (!currentOutUsers.Contains(outUid))
-                        {
-                            var deleteUser = db.User.Where(n => n.ID == outUid).FirstOrDefault();
-                            if(deleteUser != null)
-                            {
-                                db.User.Remove(deleteUser);
-                            }
-                        }
-                    }
+                    //foreach(int outUid in oldOutUsers)
+                    //{
+                    //    if (!currentOutUsers.Contains(outUid))
+                    //    {
+                    //        var deleteUser = db.User.Where(n => n.ID == outUid).FirstOrDefault();
+                    //        if(deleteUser != null)
+                    //        {
+                    //            db.User.Remove(deleteUser);
+                    //        }
+                    //    }
+                    //}
                     if (!string.IsNullOrEmpty(outDateString))
                     {
                         apply.OutDate = outDate;

@@ -127,7 +127,7 @@ namespace YGSServer.Models
         // 签证日期
         public DateTime? SignTime { get; set; }
         // 是否出行
-        public bool IsOut { get; set; }
+        public bool? IsOut { get; set; }
     }
     #endregion
 

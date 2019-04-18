@@ -224,10 +224,14 @@ namespace YGSServer.Controllers
                 }
             }
             // 身份证号
-            //if (string.IsNullOrEmpty(credNo))
-            //{
-            //    return ResponseUtil.Error(400, "身份证号不能为空");
-            //}
+            if (!string.IsNullOrEmpty(credNo))
+            {
+                // 校验身份证格式
+                if ((!Regex.IsMatch(credNo, @"^(^\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$", RegexOptions.IgnoreCase)))
+                {
+                    return ResponseUtil.Error(400, "身份证格式不正确");
+                }
+            }
             // 工作单位
             //if (string.IsNullOrEmpty(unit))
             //{

@@ -59,8 +59,8 @@ namespace YGSServer.Controllers
                     name = n.Name,
                     sex = n.Sex,
                     credUnit = n.CredUnit,
-                    credDate = n.CredDate.Value.ToString("yyyy/MM/dd"),
-                    validDate = n.ValidDate.Value.ToString("yyyy/MM/dd"),
+                    credDate = n.CredDate == null ? null : n.CredDate.Value.ToString("yyyy/MM/dd"),
+                    validDate = n.ValidDate == null ? null : n.ValidDate.Value.ToString("yyyy/MM/dd"),
                     validStatus = n.ValidStatus
                 });
                 // 出国记录
@@ -240,21 +240,17 @@ namespace YGSServer.Controllers
                 return ResponseUtil.Error(400, "证件号不能为空");
             }
             // 证件类型
-            if (string.IsNullOrEmpty(credType))
-            {
-                return ResponseUtil.Error(400, "证件类型不能为空");
-            }
+            //if (string.IsNullOrEmpty(credType))
+            //{
+            //    return ResponseUtil.Error(400, "证件类型不能为空");
+            //}
             // 发照机关
-            if (string.IsNullOrEmpty(credUnit))
-            {
-                return ResponseUtil.Error(400, "发照机关不能为空");
-            }
+            //if (string.IsNullOrEmpty(credUnit))
+            //{
+            //    return ResponseUtil.Error(400, "发照机关不能为空");
+            //}
             // 发照日期
-            if(string.IsNullOrEmpty(credDateString))
-            {
-                return ResponseUtil.Error(400, "发照日期不能为空");
-            }
-            else
+            if(!string.IsNullOrEmpty(credDateString))
             {
                 if (!DateTime.TryParse(credDateString, out credDate))
                 {
@@ -262,11 +258,7 @@ namespace YGSServer.Controllers
                 }
             }
             // 有效期
-            if (string.IsNullOrEmpty(validDateString))
-            {
-                return ResponseUtil.Error(400, "有效期不能为空");
-            }
-            else
+            if (!string.IsNullOrEmpty(validDateString))
             {
                 if (!DateTime.TryParse(validDateString, out validDate))
                 {
@@ -274,10 +266,10 @@ namespace YGSServer.Controllers
                 }
             }
             // 有效状态
-            if (string.IsNullOrEmpty(validStatus))
-            {
-                return ResponseUtil.Error(400, "有效状态不能为空");
-            }
+            //if (string.IsNullOrEmpty(validStatus))
+            //{
+            //    return ResponseUtil.Error(400, "有效状态不能为空");
+            //}
 
             /*
              * 用户查询
@@ -305,8 +297,22 @@ namespace YGSServer.Controllers
                         cred.TradeCode = tradeCode;
                         cred.CredType = credType;
                         cred.CredUnit = credUnit;
-                        cred.CredDate = credDate;
-                        cred.ValidDate = validDate;
+                        if (string.IsNullOrEmpty(credDateString))
+                        {
+                            cred.CredDate = null;
+                        }
+                        else
+                        {
+                            cred.CredDate = credDate;
+                        }
+                        if (string.IsNullOrEmpty(validDateString))
+                        {
+                            cred.ValidDate = null;
+                        }
+                        else
+                        {
+                            cred.ValidDate = validDate;
+                        }
                         cred.ValidStatus = validStatus;
                         cred.CreateTime = DateTime.Now;
                         cred.UpdateTime = DateTime.Now;
@@ -385,8 +391,8 @@ namespace YGSServer.Controllers
                                     tradeCode = cred.TradeCode,
                                     credType = cred.CredType,
                                     credUnit = cred.CredUnit,
-                                    credDate = cred.CredDate.Value.ToString("yyyy/MM/dd"),
-                                    validDate = cred.ValidDate.Value.ToString("yyyy/MM/dd"),
+                                    credDate = cred.CredDate == null ? null: cred.CredDate.Value.ToString("yyyy/MM/dd"),
+                                    validDate = cred.ValidDate == null ? null: cred.ValidDate.Value.ToString("yyyy/MM/dd"),
                                     validStatus = cred.ValidStatus
                                 }
                             }
@@ -450,21 +456,17 @@ namespace YGSServer.Controllers
                 return ResponseUtil.Error(400, "证件号不能为空");
             }
             // 证件类型
-            if (string.IsNullOrEmpty(credType))
-            {
-                return ResponseUtil.Error(400, "证件类型不能为空");
-            }
+            //if (string.IsNullOrEmpty(credType))
+            //{
+            //    return ResponseUtil.Error(400, "证件类型不能为空");
+            //}
             // 发照机关
-            if (string.IsNullOrEmpty(credUnit))
-            {
-                return ResponseUtil.Error(400, "发照机关不能为空");
-            }
+            //if (string.IsNullOrEmpty(credUnit))
+            //{
+            //    return ResponseUtil.Error(400, "发照机关不能为空");
+            //}
             // 发照日期
-            if (string.IsNullOrEmpty(credDateString))
-            {
-                return ResponseUtil.Error(400, "发照日期不能为空");
-            }
-            else
+            if (!string.IsNullOrEmpty(credDateString))
             {
                 if (!DateTime.TryParse(credDateString, out credDate))
                 {
@@ -472,11 +474,7 @@ namespace YGSServer.Controllers
                 }
             }
             // 有效期
-            if (string.IsNullOrEmpty(validDateString))
-            {
-                return ResponseUtil.Error(400, "有效期不能为空");
-            }
-            else
+            if (!string.IsNullOrEmpty(validDateString))
             {
                 if (!DateTime.TryParse(validDateString, out validDate))
                 {
@@ -484,10 +482,10 @@ namespace YGSServer.Controllers
                 }
             }
             // 有效状态
-            if (string.IsNullOrEmpty(validStatus))
-            {
-                return ResponseUtil.Error(400, "有效状态不能为空");
-            }
+            //if (string.IsNullOrEmpty(validStatus))
+            //{
+            //    return ResponseUtil.Error(400, "有效状态不能为空");
+            //}
 
             /*
              * 证件查询
@@ -511,8 +509,22 @@ namespace YGSServer.Controllers
                         cred.TradeCode = tradeCode;
                         cred.CredType = credType;
                         cred.CredUnit = credUnit;
-                        cred.CredDate = credDate;
-                        cred.ValidDate = validDate;
+                        if (string.IsNullOrEmpty(credDateString))
+                        {
+                            cred.CredDate = null;
+                        }
+                        else
+                        {
+                            cred.CredDate = credDate;
+                        }
+                        if (string.IsNullOrEmpty(validDateString))
+                        {
+                            cred.ValidDate = null;
+                        }
+                        else
+                        {
+                            cred.ValidDate = validDate;
+                        }
                         cred.ValidStatus = validStatus;
                         db.SaveChanges();
                         return ResponseUtil.OK(200, "更新成功");

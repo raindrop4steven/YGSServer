@@ -169,6 +169,8 @@ namespace YGSServer.Controllers
             var employee = (User.Identity as AppkizIdentity).Employee;
             // 出访日期
             DateTime outDate = new DateTime();
+            // 履历IDs
+            List<int> historyIdList = new List<int>();
 
             /*
              * 参数获取
@@ -183,6 +185,8 @@ namespace YGSServer.Controllers
             var outUsers = collection["outUsers"];
             // 出访日期
             var outDateString = collection["outDate"];
+            // 履历ID列表
+            var historyIds = collection["historyIds"];
 
             /*
              * 参数校验
@@ -215,7 +219,11 @@ namespace YGSServer.Controllers
                     return ResponseUtil.Error(400, "出访日期格式不正确");
                 }
             }
-
+            // 履历ID列表
+            if (!string.IsNullOrEmpty(historyIds))
+            {
+                historyIdList = historyIds.Split(',').Select(int.Parse).ToList();
+            }
             /*
              * 存储申请
              */
@@ -240,6 +248,17 @@ namespace YGSServer.Controllers
                 apply.IsDelete = true;
                 db.Apply.Add(apply);
                 db.SaveChanges();
+
+                // 更新对应的履历
+                if(historyIdList.Count > 0)
+                {
+                    var histories = db.History.Where(n => historyIdList.Contains(n.ID)).ToList();
+                    foreach (var history in histories)
+                    {
+                        history.ApplyId = apply.ID;
+                    }
+                    db.SaveChanges();
+                }
 
                 return ResponseUtil.OK(200, "创建成功");
             }
@@ -398,22 +417,23 @@ namespace YGSServer.Controllers
                 {
                     apply.OutName = outName;
                     apply.Desc = descn;
+                    apply.CredType = credType;
                     // 原有的outUsers
-                    var oldOutUsers = apply.OutUsers.Split(',').ToList().Select(int.Parse).ToList();
+                    //var oldOutUsers = apply.OutUsers.Split(',').ToList().Select(int.Parse).ToList();
                     // 最新的outUsers
-                    var currentOutUsers = outUsers.Split(',').ToList().Select(int.Parse).ToList();
+                    //var currentOutUsers = outUsers.Split(',').ToList().Select(int.Parse).ToList();
                     // 获得筛选掉的用户，并移除
-                    foreach (int outUid in oldOutUsers)
-                    {
-                        if (!currentOutUsers.Contains(outUid))
-                        {
-                            var deleteUser = db.User.Where(n => n.ID == outUid).FirstOrDefault();
-                            if (deleteUser != null)
-                            {
-                                db.User.Remove(deleteUser);
-                            }
-                        }
-                    }
+                    //foreach (int outUid in oldOutUsers)
+                    //{
+                    //    if (!currentOutUsers.Contains(outUid))
+                    //    {
+                    //        var deleteUser = db.User.Where(n => n.ID == outUid).FirstOrDefault();
+                    //        if (deleteUser != null)
+                    //        {
+                    //            db.User.Remove(deleteUser);
+                    //        }
+                    //    }
+                    //}
                     if (!string.IsNullOrEmpty(outDateString))
                     {
                         apply.OutDate = outDate;
